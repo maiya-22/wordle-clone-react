@@ -2,7 +2,7 @@
   grid-area: keys;
   display: flex;
   flex-direction: column;
-  border: rgba(128, 128, 128, 0) 0.2vw solid;
+  border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 
 .Keys__row {
@@ -11,11 +11,33 @@
 }
 
 .Keys__row__key {
-  font-size: 2vw;
-  padding: 1.3vw;
+  font-size: 1.25vw;
+  padding: 1vw;
   background-color: lightgray;
   color: rgb(49, 49, 49);
-  margin: 0.4vw;
+  margin: 0.2vw;
   border-radius: 0.2vw;
   border: rgba(128, 128, 128, 0) 0.2vw solid;
+}
+
+.Keys__row__key.pending {
+  color: black;
+  border: rgba(128, 128, 128, 0) 0.1vw solid;
+}
+.Keys__row__key.exact {
+  background-color: green;
+  color: white;
+  border: rgba(128, 128, 128, 0) 0.1vw solid;
+}
+
+.Keys__row__key.almost {
+  background-color: rgb(190, 252, 21);
+  color: white;
+  border: rgba(128, 128, 128, 0) 0.1vw solid;
+}
+
+.Keys__row__key.no-match {
+  background-color: rgb(107, 107, 107);
+  color: white;
+  border: rgba(128, 128, 128, 0) 0.1vw solid;
 }

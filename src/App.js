@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import words from "./data";
+import { gitHubImg } from "./data/urls";
 
 import "./App.css";
 import Board from "./features/board/Board";
@@ -146,7 +147,10 @@ function App() {
 
   return (
     <div className="App">
-      <div className="Header"></div>
+      <header className="Header">
+        <InProgress />
+        <GitHubLink />
+      </header>
       <Board>
         {boardObj.map((row, i) => {
           return (
@@ -189,3 +193,23 @@ function App() {
 }
 
 export default App;
+
+// TEMP LINKS:
+
+function InProgress() {
+  return (
+    <img
+      style={{ width: "7.2vw", height: "7vw" }}
+      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcZvFN2V_DqmtZnCpJM-zDwHQSFq8Xtbdww&usqp=CAU"
+      alt="in progress"
+    />
+  );
+}
+
+function GitHubLink() {
+  return (
+    <a href="https://github.com/maiya-22/wordle-clone-react" target="_blank">
+      <img style={{ width: "6.5vw" }} src={gitHubImg} alt="link to repo" />
+    </a>
+  );
+}
