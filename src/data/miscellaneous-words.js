@@ -1961,6 +1961,4 @@ const words = [
     return hash;
   }, {});
 
-console.log("words.length", words.length);
-
 export default words;
