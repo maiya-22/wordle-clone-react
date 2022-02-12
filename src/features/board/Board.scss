@@ -11,9 +11,31 @@
   width: 5vw;
   height: 5vw;
   margin: 0.3vw;
-  font-size: 1vw;
+  font-size: 2vw;
   text-transform: uppercase;
   background-color: white;
   border: rgba(128, 128, 128, 0.705) 0.1vw solid;
   color: transparent;
+}
+
+.Keys__row__key.pending,
+.Square.pending {
+  color: black;
+}
+.Keys__row__key.exact,
+.Square.exact {
+  background-color: green;
+  color: white;
+}
+
+.Keys__row__key.almost,
+.Square.almost {
+  background-color: rgb(190, 252, 21);
+  color: white;
+}
+
+.Keys__row__key.no-match,
+.Square.no-match {
+  background-color: rgb(107, 107, 107);
+  color: white;
 }

@@ -28,41 +28,102 @@ boardObj.forEach((row) => {
   });
 });
 
-const keyboard = [
+let keyboardObj = [
   ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
   ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
   ["enter", "z", "x", "c", "v", "b", "n", "m", "delete"],
 ];
 
-keyboard.forEach((row) => {
+keyboardObj.forEach((row) => {
   row.forEach((letter, i) => {
     row[i] = { letter, status: "none" };
   });
 });
+
+let initialKeyStatuses = keyboardObj.reduce((hash, row) => {
+  row.forEach((letterObj) => {
+    hash[letterObj.letter] = {
+      letter: letterObj.letter,
+      status: "pending",
+    };
+  });
+  return hash;
+}, {});
 
 function App() {
   let [state, setState] = useState({
     round: 0,
     position: 0,
   });
+  let [word, setWord] = useState("acres");
   let [board, setBoard] = useState(boardObj);
-  let [keys, setKeys] = useState(keyboard);
+  let [keyboard, setKeyboard] = useState(keyboardObj);
+  let [activeKeys, setActiveKeys] = useState(initialKeyStatuses);
 
-  useEffect(() => {
-    console.log("words", words);
-  }, []);
+  useEffect(() => {}, [activeKeys]);
 
   const guessLetter = (props) => {
     let { e, letter, status } = props;
     let { round, position } = state;
     let nextBoard = [...board];
-    nextBoard[round][position] = "test";
-    console.log("nextBoard", nextBoard);
+    let roundLength = board[0].length;
+
+    if (position >= roundLength) {
+      console.warn("end of round");
+      // vis warn
+      return null;
+    }
+    nextBoard[round][position] = { letter, status: "pending" };
     setBoard(nextBoard);
+    setState({ ...state, position: state.position + 1 });
   };
   const guessWord = (props) => {
-    let { e, letter, status } = props;
-    console.log("guess word", letter, status);
+    let round = [...board[state.round]];
+    updateBoardSquaresStatus();
+    updateKeysStatus();
+    setState({
+      ...state,
+      round: state.round + 1,
+      position: 0,
+    });
+
+    function updateBoardSquaresStatus() {
+      let nextBoardRow = round.map((letterGuess, i) => {
+        let guess = { ...letterGuess };
+        let guessedLetter = guess.letter;
+        let status = "no-match";
+        let isGuessedLetterAlmostMatch = word.split("").includes(guessedLetter);
+        status = isGuessedLetterAlmostMatch ? "almost" : status;
+        let isGuessedLetterExactMatch = guessedLetter === word[i];
+        status = isGuessedLetterExactMatch ? "exact" : status;
+        letterGuess.status = status;
+        return letterGuess;
+      });
+      let nextBoard = [...board];
+
+      nextBoard[state.round] = nextBoardRow;
+      setBoard(nextBoard);
+    }
+    function updateKeysStatus() {
+      let nextActiveKeys = { ...activeKeys };
+      round.forEach((letterGuess) => {
+        let previousLetterGuessStatus =
+          nextActiveKeys[letterGuess.letter].status;
+        let currentLetterGuessStatus = letterGuess.status;
+        if (previousLetterGuessStatus === "exact") {
+          // do nothing
+        } else if (currentLetterGuessStatus === "exact") {
+          nextActiveKeys[letterGuess.letter].status = "exact";
+        } else if (previousLetterGuessStatus === "almost") {
+          // do nothing
+        } else if (currentLetterGuessStatus === "almost") {
+          nextActiveKeys[letterGuess.letter].status = "almost";
+        } else {
+          nextActiveKeys[letterGuess.letter].status = "no-match";
+        }
+      });
+      setActiveKeys(nextActiveKeys);
+    }
   };
   const deleteLetter = (props) => {
     let { e } = props;
@@ -73,7 +134,7 @@ function App() {
     let { dataset } = e.target;
     let { letter, status } = dataset;
     if (letter === "enter") {
-      guessWord({ e, letter, status });
+      guessWord();
       return null;
     } else if (letter === "delete") {
       deleteLetter({ e });
@@ -106,11 +167,12 @@ function App() {
           return (
             <div className="Keys__row" key={uuid()}>
               {row.map((key) => {
+                let keyStatus = activeKeys[key.letter].status;
                 return (
                   <button
                     data-letter={key.letter}
-                    data-status={key.status}
-                    className={`Keys__row__key ${key.status}`}
+                    data-status={keyStatus}
+                    className={`Keys__row__key ${keyStatus}`}
                     onClick={handleKeyClick}
                     key={uuid()}
                   >
