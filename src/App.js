@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import words from "./data";
-import { gitHubImg } from "./data/urls";
-
-import "./App.css";
+import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
+import Header from "./features/header/Header";
 
 let Guess = () => {
   return {
@@ -56,12 +55,25 @@ function App() {
     round: 0,
     position: 0,
   });
-  let [word, setWord] = useState("acres");
+  let [word, setWord] = useState("");
   let [board, setBoard] = useState(boardObj);
   let [keyboard, setKeyboard] = useState(keyboardObj);
   let [activeKeys, setActiveKeys] = useState(initialKeyStatuses);
 
-  useEffect(() => {}, [activeKeys]);
+  useEffect(() => {
+    // get a random word
+    let wordKeys = Object.keys(words);
+    let randomIndex = Math.floor(Math.random() * wordKeys.length);
+    setWord(wordKeys[randomIndex]);
+  }, []);
+
+  useEffect(() => {
+    console.log({
+      "to cheat": {
+        "the word is": word,
+      },
+    });
+  }, [word]);
 
   const guessLetter = (props) => {
     let { e, letter, status } = props;
@@ -147,10 +159,7 @@ function App() {
 
   return (
     <div className="App">
-      <header className="Header">
-        <InProgress />
-        <GitHubLink />
-      </header>
+      <Header />
       <Board>
         {boardObj.map((row, i) => {
           return (
@@ -188,28 +197,11 @@ function App() {
           );
         })}
       </Keys>
+      <footer>
+        <pre>(to cheat, see the console for the word)</pre>
+      </footer>
     </div>
   );
 }
 
 export default App;
-
-// TEMP LINKS:
-
-function InProgress() {
-  return (
-    <img
-      style={{ width: "7.2vw", height: "7vw" }}
-      src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQYcZvFN2V_DqmtZnCpJM-zDwHQSFq8Xtbdww&usqp=CAU"
-      alt="in progress"
-    />
-  );
-}
-
-function GitHubLink() {
-  return (
-    <a href="https://github.com/maiya-22/wordle-clone-react" target="_blank">
-      <img style={{ width: "6.5vw" }} src={gitHubImg} alt="link to repo" />
-    </a>
-  );
-}

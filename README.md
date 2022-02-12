@@ -1,6 +1,6 @@
 ### Wordle Clone
 
-- in progress, clone of the wordle game
+- in progress, clone of the wordle game.
 
 ### Deploy
 
