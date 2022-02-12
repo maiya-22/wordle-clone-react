@@ -6,14 +6,14 @@ import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
 
+// the guess.status is used as a className, to color the squares and keys
+// the letter renders in square and key divs
 let Guess = (params = {}) => {
   return {
     letter: params.letter || null,
     status: params.status || "none",
   };
 };
-
-// hard coded game objects, for making it easier to visualize what is happening:
 
 function App() {
   let [state, setState] = useState({
@@ -200,12 +200,11 @@ function App() {
           return (
             <div className="Keys__row" key={uuid()}>
               {row.map((key) => {
-                let keyStatus = key.status;
                 return (
                   <button
                     data-letter={key.letter}
                     data-status={keyStatus}
-                    className={`Keys__row__key ${keyStatus}`}
+                    className={`Keys__row__key ${key.status}`}
                     onClick={handleKeyClick}
                     key={uuid()}
                   >
