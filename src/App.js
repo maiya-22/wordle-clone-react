@@ -6,6 +6,14 @@ import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
 
+import {
+  isRoundOver,
+  isLetterInRound,
+  getLettersInRoundHash,
+  updateKeyboardGuessStatuses,
+  updateBoardRowStatuses,
+} from "./app-logic";
+
 // the guess.status is used as a className, to color the squares and keys
 // the letter renders in square and key divs
 let Guess = (params = {}) => {
@@ -84,11 +92,8 @@ function App() {
     let { letter } = params;
     let { round, position } = state;
     let nextBoard = [...board];
-    let roundLength = board[0].length;
 
-    if (position >= roundLength) {
-      console.warn("end of round");
-      // vis warn
+    if (isRoundOver({ state, board })) {
       return null;
     }
     // put the pending guess in the square:
@@ -102,67 +107,25 @@ function App() {
     // the array of pending guesses:
     let round = [...board[state.round]];
     // evaluate the guesses and update the board and keys with the status:
-    updateBoardSquaresStatus();
-    updateKeysStatus();
-    // set state for next round
+
+    let nextBoardRow = updateBoardRowStatuses({ word, round });
+    let nextBoard = [...board];
+    nextBoard[state.round] = nextBoardRow;
+
+    let nextKeyboard = updateKeyboardGuessStatuses({
+      keyboard,
+      round,
+    });
+
+    setBoard(nextBoard);
+    setKeyboard(nextKeyboard);
     setState({
       ...state,
       round: state.round + 1,
       position: 0,
     });
-
-    // the board squares change color based on this round's guess
-    function updateBoardSquaresStatus() {
-      let nextBoardRow = round.map((guess, i) => {
-        let status;
-        if (guess.letter === word[i]) {
-          guess.status = "exact"; // exact match
-        } else if (word.split("").includes(guess.letter)) {
-          guess.status = "almost"; // letter is in the word, but not at that position
-        } else {
-          guess.status = "no-match"; // not a match
-        }
-        return guess;
-      });
-      let nextBoard = [...board];
-      nextBoard[state.round] = nextBoardRow;
-      setBoard(nextBoard);
-    }
-
-    // they keys change color, but maintain status from previous rounds
-    function updateKeysStatus() {
-      // make a hash out of the letters played in the last round, to easily get their status
-      // eg { "s": { letter: "s", status: "exact"}} for letters in round
-      let lettersInRound = round.reduce((hash, guess) => {
-        hash[guess.letter] = guess;
-        return hash;
-      }, {});
-
-      // compare keys' previous statuses to the current round's statuses, and update
-      let nextKeyboard = [...keyboard].map((row) => {
-        return row.map((guess) => {
-          let { letter, status } = guess;
-          let isLetterInRound = !!lettersInRound[guess.letter];
-          if (!isLetterInRound) {
-            // letter was not played this round, do nothing
-          } else if (status === "exact") {
-            // a previous match was as close, or closer than current match, do nothing
-          } else if (lettersInRound[letter].status === "exact") {
-            guess.status = "exact";
-          } else if (status === "almost") {
-            // previous match was as close, or closer than current match, do nothing
-          } else if (lettersInRound[letter].status === "almost") {
-            guess.status = "almost";
-          } else {
-            guess.status = "no-match";
-          }
-          return guess;
-        });
-      });
-
-      setKeyboard(nextKeyboard);
-    }
   };
+
   const deleteLetter = (props) => {
     let { e } = props;
     console.log("delete letter");
