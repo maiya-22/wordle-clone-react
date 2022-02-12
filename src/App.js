@@ -147,7 +147,7 @@ function App() {
           } else if (lettersInRound[letter].status === "exact") {
             guess.status = "exact";
           } else if (status === "almost") {
-            // previous metch was as close, or closer than current match, do nothing
+            // previous match was as close, or closer than current match, do nothing
           } else if (lettersInRound[letter].status === "almost") {
             guess.status = "almost";
           } else {
