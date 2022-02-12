@@ -88,6 +88,9 @@ function App() {
     });
   }, [word]);
 
+  // just places the guess in the square. Doesn't evaluate it.
+  // and increments to the next position, for the next guess
+  //  to do: error check, if round is over when try to guess a letter
   const guessLetter = (params) => {
     let { letter } = params;
     let { round, position } = state;
@@ -103,24 +106,27 @@ function App() {
     // move to the next position/ie letter to guess
     setState({ ...state, position: state.position + 1 });
   };
-  const guessWord = () => {
-    // the array of pending guesses:
-    let round = [...board[state.round]];
-    // evaluate the guesses and update the board and keys with the status:
 
-    let nextBoardRow = updateBoardRowStatuses({ word, round });
+  const guessWord = () => {
+    // evaluate the letters in the array to see which match the word
+    // update the board, so that the guesses are color coded, if they match
+    // update the keyboard, for any new keys that were matched and/or tried, etc
+
     let nextBoard = [...board];
-    nextBoard[state.round] = nextBoardRow;
+    let updatedRound = updateBoardRowStatuses({
+      word,
+      round: board[state.round],
+    });
+    nextBoard[state.round] = updatedRound;
 
     let nextKeyboard = updateKeyboardGuessStatuses({
       keyboard,
-      round,
+      round: updatedRound,
     });
 
     setBoard(nextBoard);
     setKeyboard(nextKeyboard);
     setState({
-      ...state,
       round: state.round + 1,
       position: 0,
     });
