@@ -41,6 +41,10 @@ keyboard.forEach((row) => {
 });
 
 function App() {
+  let [state, setState] = useState({
+    round: 0,
+    position: 0,
+  });
   let [board, setBoard] = useState(boardObj);
   let [keys, setKeys] = useState(keyboard);
 
@@ -48,29 +52,35 @@ function App() {
     console.log("words", words);
   }, []);
 
-  const handleGuessLetter = (e) => {
-    console.log("guess letter");
+  const guessLetter = (props) => {
+    let { e, letter, status } = props;
+    let { round, position } = state;
+    let nextBoard = [...board];
+    nextBoard[round][position] = "test";
+    console.log("nextBoard", nextBoard);
+    setBoard(nextBoard);
   };
-  const handleGuessWord = (e) => {
-    console.log("guess word");
+  const guessWord = (props) => {
+    let { e, letter, status } = props;
+    console.log("guess word", letter, status);
   };
-  const handleDeleteLetter = (e) => {
+  const deleteLetter = (props) => {
+    let { e } = props;
     console.log("delete letter");
   };
 
   const handleKeyClick = (e) => {
     let { dataset } = e.target;
     let { letter, status } = dataset;
-
     if (letter === "enter") {
-      handleGuessWord(e);
+      guessWord({ e, letter, status });
       return null;
     } else if (letter === "delete") {
-      handleDeleteLetter(e);
+      deleteLetter({ e });
       return null;
+    } else {
+      guessLetter({ e, letter, status });
     }
-
-    console.log("key click", letter, status);
   };
 
   return (
