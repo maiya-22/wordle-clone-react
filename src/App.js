@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { v4 as uuid } from "uuid";
+import words from "./data";
 
 import "./App.css";
 import Board from "./features/board/Board";
@@ -42,11 +44,61 @@ function App() {
   let [board, setBoard] = useState(boardObj);
   let [keys, setKeys] = useState(keyboard);
 
+  useEffect(() => {
+    console.log("words", words);
+  }, []);
+
+  const handleGuessLetter = (e) => {
+    console.log("guess letter");
+  };
+  const handleGuessWord = (e) => {
+    console.log("guess word");
+  };
+  const handleDeleteLetter = (e) => {
+    console.log("delete letter");
+  };
+
+  const handleKeyClick = (e) => {
+    console.log("key click");
+  };
+
   return (
     <div className="App">
       <div className="Header"></div>
-      <Board board={board} />
-      <Keys keyboard={keyboard} />
+      <Board>
+        {boardObj.map((row, i) => {
+          return (
+            <div key={uuid()} className="Board__row">
+              {row.map((guess, k) => {
+                return (
+                  <button className="Square" key={uuid()}>
+                    {guess.letter || "*"}
+                  </button>
+                );
+              })}
+            </div>
+          );
+        })}
+      </Board>
+      <Keys>
+        {keyboard.map((row) => {
+          return (
+            <div className="Keys__row" key={uuid()}>
+              {row.map((key) => {
+                return (
+                  <button
+                    className="Keys__row__key"
+                    onClick={handleKeyClick}
+                    key={uuid()}
+                  >
+                    {key.letter}
+                  </button>
+                );
+              })}
+            </div>
+          );
+        })}
+      </Keys>
     </div>
   );
 }
