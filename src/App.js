@@ -21,6 +21,7 @@ function App() {
     position: 0, // position is the column    board[round][position] ---> points to a square
   });
   // e.g. board[i][k] is like board[round][position]
+
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
     [Guess(), Guess(), Guess(), Guess(), Guess()],
