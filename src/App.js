@@ -95,6 +95,7 @@ function App() {
     nextBoard[round][position] = Guess({ letter, status: "pending" });
     // update board, with new guess
     setBoard(nextBoard);
+    // move to the next position/ie letter to guess
     setState({ ...state, position: state.position + 1 });
   };
   const guessWord = () => {
@@ -117,7 +118,7 @@ function App() {
         if (guess.letter === word[i]) {
           guess.status = "exact"; // exact match
         } else if (word.split("").includes(guess.letter)) {
-          guess.status = "almost"; // almost a match
+          guess.status = "almost"; // letter is in the word, but not at that position
         } else {
           guess.status = "no-match"; // not a match
         }
@@ -131,6 +132,7 @@ function App() {
     // they keys change color, but maintain status from previous rounds
     function updateKeysStatus() {
       // make a hash out of the letters played in the last round, to easily get their status
+      // eg { "s": { letter: "s", status: "exact"}} for letters in round
       let lettersInRound = round.reduce((hash, guess) => {
         hash[guess.letter] = guess;
         return hash;
