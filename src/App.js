@@ -9,7 +9,7 @@ import Keys from "./features/keys/Keys";
 let Guess = () => {
   return {
     letter: null,
-    status: null,
+    status: "none",
   };
 };
 
@@ -36,7 +36,7 @@ const keyboard = [
 
 keyboard.forEach((row) => {
   row.forEach((letter, i) => {
-    row[i] = { letter, status: null };
+    row[i] = { letter, status: "none" };
   });
 });
 
@@ -59,7 +59,18 @@ function App() {
   };
 
   const handleKeyClick = (e) => {
-    console.log("key click");
+    let { dataset } = e.target;
+    let { letter, status } = dataset;
+
+    if (letter === "enter") {
+      handleGuessWord(e);
+      return null;
+    } else if (letter === "delete") {
+      handleDeleteLetter(e);
+      return null;
+    }
+
+    console.log("key click", letter, status);
   };
 
   return (
@@ -71,7 +82,7 @@ function App() {
             <div key={uuid()} className="Board__row">
               {row.map((guess, k) => {
                 return (
-                  <button className="Square" key={uuid()}>
+                  <button className={`Square ${guess.status}`} key={uuid()}>
                     {guess.letter || "*"}
                   </button>
                 );
@@ -87,7 +98,9 @@ function App() {
               {row.map((key) => {
                 return (
                   <button
-                    className="Keys__row__key"
+                    data-letter={key.letter}
+                    data-status={key.status}
+                    className={`Keys__row__key ${key.status}`}
                     onClick={handleKeyClick}
                     key={uuid()}
                   >
