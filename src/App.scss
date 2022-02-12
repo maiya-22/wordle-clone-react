@@ -29,13 +29,14 @@ body {
     height: 100vh;
     display: grid;
     grid-template-columns: 1fr auto 1fr;
-    grid-template-rows: 1fr auto 1fr auto 4fr;
+    grid-template-rows: 1fr auto 1fr auto 4fr 1fr;
     grid-template-areas:
       "header header header"
       ". board ."
       " . . ."
       ". keys ."
-      ". . .";
+      ". . ."
+      "footer footer footer;
   }
 }
 
