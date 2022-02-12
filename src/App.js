@@ -61,37 +61,6 @@ let keyboardObj = [
   ],
 ];
 
-let initialKeyStatuses = {
-  a: Guess({ letter: "a", status: "pending" }),
-  b: Guess({ letter: "b", status: "pending" }),
-  c: Guess({ letter: "c", status: "pending" }),
-  d: Guess({ letter: "d", status: "pending" }),
-  e: Guess({ letter: "e", status: "pending" }),
-  f: Guess({ letter: "f", status: "pending" }),
-  g: Guess({ letter: "g", status: "pending" }),
-  h: Guess({ letter: "h", status: "pending" }),
-  i: Guess({ letter: "i", status: "pending" }),
-  j: Guess({ letter: "j", status: "pending" }),
-  k: Guess({ letter: "k", status: "pending" }),
-  l: Guess({ letter: "l", status: "pending" }),
-  m: Guess({ letter: "m", status: "pending" }),
-  n: Guess({ letter: "n", status: "pending" }),
-  o: Guess({ letter: "o", status: "pending" }),
-  p: Guess({ letter: "p", status: "pending" }),
-  q: Guess({ letter: "q", status: "pending" }),
-  r: Guess({ letter: "r", status: "pending" }),
-  s: Guess({ letter: "s", status: "pending" }),
-  t: Guess({ letter: "t", status: "pending" }),
-  u: Guess({ letter: "u", status: "pending" }),
-  v: Guess({ letter: "v", status: "pending" }),
-  w: Guess({ letter: "w", status: "pending" }),
-  x: Guess({ letter: "x", status: "pending" }),
-  y: Guess({ letter: "y", status: "pending" }),
-  z: Guess({ letter: "z", status: "pending" }),
-  enter: Guess({ letter: "enter", status: "pending" }),
-  delete: Guess({ letter: "delete", status: "pending" }),
-};
-
 function App() {
   let [state, setState] = useState({
     round: 0,
@@ -101,7 +70,6 @@ function App() {
   let [word, setWord] = useState("");
   let [board, setBoard] = useState(boardObj);
   let [keyboard, setKeyboard] = useState(keyboardObj);
-  let [activeKeys, setActiveKeys] = useState(initialKeyStatuses);
 
   useEffect(() => {
     // get a random word
@@ -161,24 +129,33 @@ function App() {
       setBoard(nextBoard);
     }
     function updateKeysStatus() {
-      let nextActiveKeys = { ...activeKeys };
-      round.forEach((letterGuess) => {
-        let previousLetterGuessStatus =
-          nextActiveKeys[letterGuess.letter].status;
-        let currentLetterGuessStatus = letterGuess.status;
-        if (previousLetterGuessStatus === "exact") {
-          // do nothing
-        } else if (currentLetterGuessStatus === "exact") {
-          nextActiveKeys[letterGuess.letter].status = "exact";
-        } else if (previousLetterGuessStatus === "almost") {
-          // do nothing
-        } else if (currentLetterGuessStatus === "almost") {
-          nextActiveKeys[letterGuess.letter].status = "almost";
-        } else {
-          nextActiveKeys[letterGuess.letter].status = "no-match";
-        }
+      let lettersInRound = round.reduce((hash, guess) => {
+        hash[guess.letter] = guess;
+        return hash;
+      }, {});
+
+      let nextKeyboard = [...keyboard].map((row) => {
+        return row.map((guess) => {
+          let { letter, status } = guess;
+          let isLetterInRound = !!lettersInRound[guess.letter];
+          if (!isLetterInRound) {
+            // do nothing
+          } else if (status === "exact") {
+            // do nothing
+          } else if (lettersInRound[letter].status === "exact") {
+            guess.status = "exact";
+          } else if (status === "almost") {
+            // do nothing
+          } else if (lettersInRound[letter].status === "almost") {
+            guess.status = "almost";
+          } else {
+            guess.status = "no-match";
+          }
+          return guess;
+        });
       });
-      setActiveKeys(nextActiveKeys);
+
+      setKeyboard(nextKeyboard);
     }
   };
   const deleteLetter = (props) => {
@@ -223,7 +200,7 @@ function App() {
           return (
             <div className="Keys__row" key={uuid()}>
               {row.map((key) => {
-                let keyStatus = activeKeys[key.letter].status;
+                let keyStatus = key.status;
                 return (
                   <button
                     data-letter={key.letter}
