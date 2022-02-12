@@ -17,9 +17,10 @@ let Guess = (params = {}) => {
 
 function App() {
   let [state, setState] = useState({
-    round: 0,
-    position: 0,
+    round: 0, // round is a row in the game  evaluate a round when you click "enter"
+    position: 0, // position is the column    board[round][position] ---> points to a square
   });
+  // e.g. board[i][k] is like board[round][position]
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
     [Guess(), Guess(), Guess(), Guess(), Guess()],
@@ -67,7 +68,6 @@ function App() {
   ]);
 
   useEffect(() => {
-    // get a random word
     setWord(getRandomWord());
   }, []);
 
@@ -97,9 +97,9 @@ function App() {
     setState({ ...state, position: state.position + 1 });
   };
   const guessWord = () => {
-    // the array of guesses:
+    // the array of pending guesses:
     let round = [...board[state.round]];
-    // evaluate the guesses and update the board and keys:
+    // evaluate the guesses and update the board and keys with the status:
     updateBoardSquaresStatus();
     updateKeysStatus();
     // set state for next round
