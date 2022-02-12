@@ -8,8 +8,6 @@ import Header from "./features/header/Header";
 
 import {
   isRoundOver,
-  isLetterInRound,
-  getLettersInRoundHash,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
 } from "./app-logic";
@@ -32,47 +30,83 @@ function App() {
 
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
-    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
+    [
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+      Guess({ letter: null, status: "none" }),
+    ],
   ]);
   let [keyboard, setKeyboard] = useState([
     [
-      Guess({ letter: "q" }),
-      Guess({ letter: "w" }),
-      Guess({ letter: "e" }),
-      Guess({ letter: "r" }),
-      Guess({ letter: "t" }),
-      Guess({ letter: "y" }),
-      Guess({ letter: "u" }),
-      Guess({ letter: "i" }),
-      Guess({ letter: "o" }),
-      Guess({ letter: "p" }),
+      Guess({ letter: "q", status: "none" }),
+      Guess({ letter: "w", status: "none" }),
+      Guess({ letter: "e", status: "none" }),
+      Guess({ letter: "r", status: "none" }),
+      Guess({ letter: "t", status: "none" }),
+      Guess({ letter: "y", status: "none" }),
+      Guess({ letter: "u", status: "none" }),
+      Guess({ letter: "i", status: "none" }),
+      Guess({ letter: "o", status: "none" }),
+      Guess({ letter: "p", status: "none" }),
     ],
     [
-      Guess({ letter: "a" }),
-      Guess({ letter: "s" }),
-      Guess({ letter: "d" }),
-      Guess({ letter: "f" }),
-      Guess({ letter: "g" }),
-      Guess({ letter: "h" }),
-      Guess({ letter: "j" }),
-      Guess({ letter: "k" }),
-      Guess({ letter: "l" }),
+      Guess({ letter: "a", status: "none" }),
+      Guess({ letter: "s", status: "none" }),
+      Guess({ letter: "d", status: "none" }),
+      Guess({ letter: "f", status: "none" }),
+      Guess({ letter: "g", status: "none" }),
+      Guess({ letter: "h", status: "none" }),
+      Guess({ letter: "j", status: "none" }),
+      Guess({ letter: "k", status: "none" }),
+      Guess({ letter: "l", status: "none" }),
     ],
     [
-      Guess({ letter: "enter" }),
-      Guess({ letter: "z" }),
-      Guess({ letter: "x" }),
-      Guess({ letter: "c" }),
-      Guess({ letter: "v" }),
-      Guess({ letter: "b" }),
-      Guess({ letter: "n" }),
-      Guess({ letter: "m" }),
-      Guess({ letter: "delete" }),
+      Guess({ letter: "enter", status: "none" }),
+      Guess({ letter: "z", status: "none" }),
+      Guess({ letter: "x", status: "none" }),
+      Guess({ letter: "c", status: "none" }),
+      Guess({ letter: "v", status: "none" }),
+      Guess({ letter: "b", status: "none" }),
+      Guess({ letter: "n", status: "none" }),
+      Guess({ letter: "m", status: "none" }),
+      Guess({ letter: "delete", status: "none" }),
     ],
   ]);
 
@@ -88,10 +122,10 @@ function App() {
     });
   }, [word]);
 
-  // just places the guess in the square. Doesn't evaluate it.
-  // and increments to the next position, for the next guess
-  //  to do: error check, if round is over when try to guess a letter
   const guessLetter = (params) => {
+    // just places the guess in the square. Doesn't evaluate it.
+    // and increments to the next position, for the next guess
+    //  to do: error check, if round is over when try to guess a letter
     let { letter } = params;
     let { round, position } = state;
     let nextBoard = [...board];
