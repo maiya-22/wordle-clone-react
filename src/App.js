@@ -111,42 +111,43 @@ function App() {
 
     // the board squares change color based on this round's guess
     function updateBoardSquaresStatus() {
-      let nextBoardRow = round.map((letterGuess, i) => {
-        let guess = { ...letterGuess };
-        let guessedLetter = guess.letter;
-        let status = "no-match";
-        let isGuessedLetterAlmostMatch = word.split("").includes(guessedLetter);
-        status = isGuessedLetterAlmostMatch ? "almost" : status;
-        let isGuessedLetterExactMatch = guessedLetter === word[i];
-        status = isGuessedLetterExactMatch ? "exact" : status;
-        letterGuess.status = status;
-        return letterGuess;
+      let nextBoardRow = round.map((guess, i) => {
+        let status;
+        if (guess.letter === word[i]) {
+          guess.status = "exact"; // exact match
+        } else if (word.split("").includes(guess.letter)) {
+          guess.status = "almost"; // almost a match
+        } else {
+          guess.status = "no-match"; // not a match
+        }
+        return guess;
       });
       let nextBoard = [...board];
-
       nextBoard[state.round] = nextBoardRow;
       setBoard(nextBoard);
     }
 
     // they keys change color, but maintain status from previous rounds
     function updateKeysStatus() {
+      // make a hash out of the letters played in the last round, to easily get their status
       let lettersInRound = round.reduce((hash, guess) => {
         hash[guess.letter] = guess;
         return hash;
       }, {});
 
+      // compare keys' previous statuses to the current round's statuses, and update
       let nextKeyboard = [...keyboard].map((row) => {
         return row.map((guess) => {
           let { letter, status } = guess;
           let isLetterInRound = !!lettersInRound[guess.letter];
           if (!isLetterInRound) {
-            // do nothing
+            // letter was not played this round, do nothing
           } else if (status === "exact") {
-            // do nothing
+            // a previous match was as close, or closer than current match, do nothing
           } else if (lettersInRound[letter].status === "exact") {
             guess.status = "exact";
           } else if (status === "almost") {
-            // do nothing
+            // previous metch was as close, or closer than current match, do nothing
           } else if (lettersInRound[letter].status === "almost") {
             guess.status = "almost";
           } else {
@@ -164,7 +165,7 @@ function App() {
     console.log("delete letter");
   };
 
-  // figure out which key was clicked and call move
+  // see which key was clicked and call move
   const handleKeyClick = (e) => {
     let { dataset } = e.target;
     let { letter, status } = dataset;
@@ -203,7 +204,7 @@ function App() {
                 return (
                   <button
                     data-letter={key.letter}
-                    data-status={keyStatus}
+                    data-status={key.status}
                     className={`Keys__row__key ${key.status}`}
                     onClick={handleKeyClick}
                     key={uuid()}
