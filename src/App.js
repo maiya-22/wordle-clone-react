@@ -6,55 +6,98 @@ import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
 
-let Guess = () => {
+let Guess = (params = {}) => {
   return {
-    letter: null,
-    status: "none",
+    letter: params.letter || null,
+    status: params.status || "none",
   };
 };
 
-const boardObj = [
-  [null, null, null, null, null],
-  [null, null, null, null, null],
-  [null, null, null, null, null],
-  [null, null, null, null, null],
-  [null, null, null, null, null],
-  [null, null, null, null, null],
-];
+// hard coded game objects, for making it easier to visualize what is happening:
 
-boardObj.forEach((row) => {
-  row.forEach((guess, i) => {
-    row[i] = Guess();
-  });
-});
+const boardObj = [
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+  [Guess(), Guess(), Guess(), Guess(), Guess()],
+];
 
 let keyboardObj = [
-  ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p"],
-  ["a", "s", "d", "f", "g", "h", "j", "k", "l"],
-  ["enter", "z", "x", "c", "v", "b", "n", "m", "delete"],
+  [
+    Guess({ letter: "q" }),
+    Guess({ letter: "w" }),
+    Guess({ letter: "e" }),
+    Guess({ letter: "r" }),
+    Guess({ letter: "t" }),
+    Guess({ letter: "y" }),
+    Guess({ letter: "u" }),
+    Guess({ letter: "i" }),
+    Guess({ letter: "o" }),
+    Guess({ letter: "p" }),
+  ],
+  [
+    Guess({ letter: "a" }),
+    Guess({ letter: "s" }),
+    Guess({ letter: "d" }),
+    Guess({ letter: "f" }),
+    Guess({ letter: "g" }),
+    Guess({ letter: "h" }),
+    Guess({ letter: "j" }),
+    Guess({ letter: "k" }),
+    Guess({ letter: "l" }),
+  ],
+  [
+    Guess({ letter: "enter" }),
+    Guess({ letter: "z" }),
+    Guess({ letter: "x" }),
+    Guess({ letter: "c" }),
+    Guess({ letter: "v" }),
+    Guess({ letter: "b" }),
+    Guess({ letter: "n" }),
+    Guess({ letter: "m" }),
+    Guess({ letter: "delete" }),
+  ],
 ];
 
-keyboardObj.forEach((row) => {
-  row.forEach((letter, i) => {
-    row[i] = { letter, status: "none" };
-  });
-});
-
-let initialKeyStatuses = keyboardObj.reduce((hash, row) => {
-  row.forEach((letterObj) => {
-    hash[letterObj.letter] = {
-      letter: letterObj.letter,
-      status: "pending",
-    };
-  });
-  return hash;
-}, {});
+let initialKeyStatuses = {
+  a: Guess({ letter: "a", status: "pending" }),
+  b: Guess({ letter: "b", status: "pending" }),
+  c: Guess({ letter: "c", status: "pending" }),
+  d: Guess({ letter: "d", status: "pending" }),
+  e: Guess({ letter: "e", status: "pending" }),
+  f: Guess({ letter: "f", status: "pending" }),
+  g: Guess({ letter: "g", status: "pending" }),
+  h: Guess({ letter: "h", status: "pending" }),
+  i: Guess({ letter: "i", status: "pending" }),
+  j: Guess({ letter: "j", status: "pending" }),
+  k: Guess({ letter: "k", status: "pending" }),
+  l: Guess({ letter: "l", status: "pending" }),
+  m: Guess({ letter: "m", status: "pending" }),
+  n: Guess({ letter: "n", status: "pending" }),
+  o: Guess({ letter: "o", status: "pending" }),
+  p: Guess({ letter: "p", status: "pending" }),
+  q: Guess({ letter: "q", status: "pending" }),
+  r: Guess({ letter: "r", status: "pending" }),
+  s: Guess({ letter: "s", status: "pending" }),
+  t: Guess({ letter: "t", status: "pending" }),
+  u: Guess({ letter: "u", status: "pending" }),
+  v: Guess({ letter: "v", status: "pending" }),
+  w: Guess({ letter: "w", status: "pending" }),
+  x: Guess({ letter: "x", status: "pending" }),
+  y: Guess({ letter: "y", status: "pending" }),
+  z: Guess({ letter: "z", status: "pending" }),
+  enter: Guess({ letter: "enter", status: "pending" }),
+  delete: Guess({ letter: "delete", status: "pending" }),
+};
 
 function App() {
   let [state, setState] = useState({
     round: 0,
     position: 0,
   });
+
   let [word, setWord] = useState("");
   let [board, setBoard] = useState(boardObj);
   let [keyboard, setKeyboard] = useState(keyboardObj);
