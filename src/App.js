@@ -90,20 +90,26 @@ function App() {
       // vis warn
       return null;
     }
-    nextBoard[round][position] = { letter, status: "pending" };
+    // put the pending guess in the square:
+    nextBoard[round][position] = Guess({ letter, status: "pending" });
+    // update board, with new guess
     setBoard(nextBoard);
     setState({ ...state, position: state.position + 1 });
   };
-  const guessWord = (props) => {
+  const guessWord = () => {
+    // the array of guesses:
     let round = [...board[state.round]];
+    // evaluate the guesses and update the board and keys:
     updateBoardSquaresStatus();
     updateKeysStatus();
+    // set state for next round
     setState({
       ...state,
       round: state.round + 1,
       position: 0,
     });
 
+    // the board squares change color based on this round's guess
     function updateBoardSquaresStatus() {
       let nextBoardRow = round.map((letterGuess, i) => {
         let guess = { ...letterGuess };
@@ -121,6 +127,8 @@ function App() {
       nextBoard[state.round] = nextBoardRow;
       setBoard(nextBoard);
     }
+
+    // they keys change color, but maintain status from previous rounds
     function updateKeysStatus() {
       let lettersInRound = round.reduce((hash, guess) => {
         hash[guess.letter] = guess;
@@ -156,6 +164,7 @@ function App() {
     console.log("delete letter");
   };
 
+  // figure out which key was clicked and call move
   const handleKeyClick = (e) => {
     let { dataset } = e.target;
     let { letter, status } = dataset;
