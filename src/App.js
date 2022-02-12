@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
-import words from "./data";
+import getRandomWord from "./data";
 import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
@@ -15,67 +15,60 @@ let Guess = (params = {}) => {
 
 // hard coded game objects, for making it easier to visualize what is happening:
 
-const boardObj = [
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-  [Guess(), Guess(), Guess(), Guess(), Guess()],
-];
-
-let keyboardObj = [
-  [
-    Guess({ letter: "q" }),
-    Guess({ letter: "w" }),
-    Guess({ letter: "e" }),
-    Guess({ letter: "r" }),
-    Guess({ letter: "t" }),
-    Guess({ letter: "y" }),
-    Guess({ letter: "u" }),
-    Guess({ letter: "i" }),
-    Guess({ letter: "o" }),
-    Guess({ letter: "p" }),
-  ],
-  [
-    Guess({ letter: "a" }),
-    Guess({ letter: "s" }),
-    Guess({ letter: "d" }),
-    Guess({ letter: "f" }),
-    Guess({ letter: "g" }),
-    Guess({ letter: "h" }),
-    Guess({ letter: "j" }),
-    Guess({ letter: "k" }),
-    Guess({ letter: "l" }),
-  ],
-  [
-    Guess({ letter: "enter" }),
-    Guess({ letter: "z" }),
-    Guess({ letter: "x" }),
-    Guess({ letter: "c" }),
-    Guess({ letter: "v" }),
-    Guess({ letter: "b" }),
-    Guess({ letter: "n" }),
-    Guess({ letter: "m" }),
-    Guess({ letter: "delete" }),
-  ],
-];
-
 function App() {
   let [state, setState] = useState({
     round: 0,
     position: 0,
   });
-
   let [word, setWord] = useState("");
-  let [board, setBoard] = useState(boardObj);
-  let [keyboard, setKeyboard] = useState(keyboardObj);
+  let [board, setBoard] = useState([
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+    [Guess(), Guess(), Guess(), Guess(), Guess()],
+  ]);
+  let [keyboard, setKeyboard] = useState([
+    [
+      Guess({ letter: "q" }),
+      Guess({ letter: "w" }),
+      Guess({ letter: "e" }),
+      Guess({ letter: "r" }),
+      Guess({ letter: "t" }),
+      Guess({ letter: "y" }),
+      Guess({ letter: "u" }),
+      Guess({ letter: "i" }),
+      Guess({ letter: "o" }),
+      Guess({ letter: "p" }),
+    ],
+    [
+      Guess({ letter: "a" }),
+      Guess({ letter: "s" }),
+      Guess({ letter: "d" }),
+      Guess({ letter: "f" }),
+      Guess({ letter: "g" }),
+      Guess({ letter: "h" }),
+      Guess({ letter: "j" }),
+      Guess({ letter: "k" }),
+      Guess({ letter: "l" }),
+    ],
+    [
+      Guess({ letter: "enter" }),
+      Guess({ letter: "z" }),
+      Guess({ letter: "x" }),
+      Guess({ letter: "c" }),
+      Guess({ letter: "v" }),
+      Guess({ letter: "b" }),
+      Guess({ letter: "n" }),
+      Guess({ letter: "m" }),
+      Guess({ letter: "delete" }),
+    ],
+  ]);
 
   useEffect(() => {
     // get a random word
-    let wordKeys = Object.keys(words);
-    let randomIndex = Math.floor(Math.random() * wordKeys.length);
-    setWord(wordKeys[randomIndex]);
+    setWord(getRandomWord());
   }, []);
 
   useEffect(() => {
@@ -86,8 +79,8 @@ function App() {
     });
   }, [word]);
 
-  const guessLetter = (props) => {
-    let { e, letter, status } = props;
+  const guessLetter = (params) => {
+    let { letter } = params;
     let { round, position } = state;
     let nextBoard = [...board];
     let roundLength = board[0].length;
@@ -168,10 +161,8 @@ function App() {
     let { letter, status } = dataset;
     if (letter === "enter") {
       guessWord();
-      return null;
     } else if (letter === "delete") {
       deleteLetter({ e });
-      return null;
     } else {
       guessLetter({ e, letter, status });
     }
@@ -181,7 +172,7 @@ function App() {
     <div className="App">
       <Header />
       <Board>
-        {boardObj.map((row, i) => {
+        {board.map((row, i) => {
           return (
             <div key={uuid()} className="Board__row">
               {row.map((guess, k) => {

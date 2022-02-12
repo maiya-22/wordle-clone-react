@@ -6,4 +6,10 @@ const words = {
   ...s,
 };
 
-export default words;
+const getRandomWord = () => {
+  let wordKeys = Object.keys(words);
+  let randomIndex = Math.floor(Math.random() * wordKeys.length);
+  return wordKeys[randomIndex];
+};
+
+export default getRandomWord;
