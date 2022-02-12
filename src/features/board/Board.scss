@@ -1,0 +1,19 @@
+.Board {
+  grid-area: board;
+  margin: auto;
+}
+
+.Board__row {
+  display: flex;
+}
+
+.Square {
+  width: 5vw;
+  height: 5vw;
+  margin: 0.3vw;
+  font-size: 1vw;
+  text-transform: uppercase;
+  background-color: white;
+  border: rgba(128, 128, 128, 0.705) 0.1vw solid;
+  color: transparent;
+}

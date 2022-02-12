@@ -1,0 +1,21 @@
+.Keys {
+  grid-area: keys;
+  display: flex;
+  flex-direction: column;
+  border: rgba(128, 128, 128, 0) 0.2vw solid;
+}
+
+.Keys__row {
+  display: flex;
+  justify-content: center;
+}
+
+.Keys__row__key {
+  font-size: 2vw;
+  padding: 1.3vw;
+  background-color: lightgray;
+  color: rgb(49, 49, 49);
+  margin: 0.4vw;
+  border-radius: 0.2vw;
+  border: rgba(128, 128, 128, 0) 0.2vw solid;
+}

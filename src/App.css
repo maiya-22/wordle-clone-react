@@ -1,0 +1,26 @@
+body {
+  font-family: monospace;
+}
+
+.App {
+  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  grid-template-rows: 1fr auto 1fr auto 4fr;
+  grid-template-areas:
+    "header header header"
+    ". board ."
+    " . . ."
+    ". keys ."
+    ". . .";
+}
+
+header {
+  grid-area: header;
+  font-size: 0.95vw;
+  color: gray;
+  display: flex;
+  justify-content: space-between;
+}
