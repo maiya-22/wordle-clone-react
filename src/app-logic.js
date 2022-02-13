@@ -55,7 +55,7 @@ const updateKeyboardGuessStatuses = (params) => {
 const isRowOver = (params) => {
   let { state, board } = params;
   let rowLength = board[0].length;
-  return state.rowNumber >= rowLength;
+  return state.columnNumber >= rowLength;
 };
 
 const isRowComplete = (params) => {
