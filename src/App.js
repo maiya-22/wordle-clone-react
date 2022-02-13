@@ -7,12 +7,12 @@ import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
 
 import {
-  isRowOver,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
-  isRoundComplete,
   isInWordList,
   getWordFromRound,
+  isRowComplete,
+  isRowOver,
 } from "./app-logic";
 import axios from "axios";
 
@@ -118,7 +118,7 @@ function App() {
     ],
   ]);
 
-  console.log(process.env);
+  // console.log(process.env);
 
   const LAMBDA_URL =
     process.env.NODE_ENV === "development"
@@ -127,15 +127,15 @@ function App() {
 
   useEffect(() => {
     setWord(getRandomWord());
-    axios
-      .get(LAMBDA_URL, {
-        proxy: "http://localhost",
-        port: 9000,
-      })
-      .then((res) => {
-        console.log({ res });
-      })
-      .catch(console.error);
+    // axios
+    //   .get(LAMBDA_URL, {
+    //     proxy: "http://localhost",
+    //     port: 9000,
+    //   })
+    //   .then((res) => {
+    //     console.log({ res });
+    //   })
+    //   .catch(console.error);
   }, []);
 
   useEffect(() => {
@@ -147,6 +147,7 @@ function App() {
   }, [word]);
 
   const guessLetter = (params) => {
+    console.log("state: ", state);
     // just places the guess in the square. Doesn't evaluate it.
     // and increments to the next position, for the next guess
     //  to do: error check, if round is over when try to guess a letter
@@ -159,14 +160,14 @@ function App() {
       return null;
     }
     // put the pending guess in the square:
-    nextBoard[round][position] = Guess({ letter, status: "pending" });
+    nextBoard[rowNumber][columnNumber] = Guess({ letter, status: "pending" });
     // update board, with new guess
     setBoard(nextBoard);
     // move to the next position/ie letter to guess
     setState({
       ...state,
       position: state.position + 1, // before refactor
-      rowNumber: state.rowNumber + 1,
+      columnNumber: state.columnNumber + 1,
     });
   };
 
@@ -175,7 +176,7 @@ function App() {
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
 
-    if (!isRoundComplete({ round: board[state.round] })) {
+    if (!isRowComplete({ row: board[state.rowNumber] })) {
       console.warn("to do: is complete?");
       return null;
     }
@@ -205,7 +206,9 @@ function App() {
     setKeyboard(nextKeyboard);
     setState({
       round: state.round + 1,
+      rowNumber: state.rowNumber + 1,
       position: 0,
+      columnNumber: 0,
     });
   };
 

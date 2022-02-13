@@ -33,13 +33,6 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
-const isRoundComplete = (params) => {
-  let { round } = params;
-  return round.reduce((isComplete, guess) => {
-    return isComplete && !!guess.letter;
-  }, true);
-};
-
 const getWordFromRound = (params) => {
   let { round } = params;
   return round
@@ -89,13 +82,20 @@ const isRowOver = (params) => {
   return state.position >= rowLength;
 };
 
+const isRowComplete = (params) => {
+  let { row } = params;
+  return row.reduce((isComplete, guess) => {
+    return isComplete && !!guess.letter;
+  }, true);
+};
+
 export {
   isRowOver,
   isLetterInRound,
   getLettersInRoundHash,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
-  isRoundComplete,
+  isRowComplete,
   isInWordList,
   getWordFromRound,
 };
