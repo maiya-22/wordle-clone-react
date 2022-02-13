@@ -32,6 +32,7 @@ function App() {
   });
   // to get to a square:  board[rowNumber][columnNumber]
 
+  let [mode, setMode] = useState("idle");
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
     [
@@ -135,11 +136,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log({
-      "to cheat": {
-        "the word is": word,
-      },
-    });
+    console.log("the word is", `"${word}"`);
   }, [word]);
 
   const placeLetterGuess = (params) => {
@@ -165,6 +162,7 @@ function App() {
   };
 
   const guessWord = () => {
+    console.log("set state:", state);
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
@@ -220,10 +218,12 @@ function App() {
     let { dataset } = e.target;
     let { letter } = dataset;
     if (letter === "enter") {
+      setMode("guessing");
       guessWord();
     } else if (letter === "delete") {
       deleteLetter();
     } else {
+      if (mode != "idle") setMode("idle");
       placeLetterGuess({ letter });
     }
   };
@@ -237,8 +237,20 @@ function App() {
           return (
             <div key={uuid()} className="Board__row">
               {row.map((guess, k) => {
+                let appearAnimationStyles = {};
+                if (i === state.rowNumber - 1 && mode === "guessing") {
+                  appearAnimationStyles = {
+                    backfaceVisibility: "visible !important",
+                    opacity: 0,
+                    animation: `flipInX 1s  ${k * 0.25}s forwards`,
+                  };
+                }
                 return (
-                  <button className={`Square ${guess.status}`} key={uuid()}>
+                  <button
+                    style={appearAnimationStyles}
+                    className={`Square ${guess.status}`}
+                    key={uuid()}
+                  >
                     {guess.letter || "*"}
                   </button>
                 );
