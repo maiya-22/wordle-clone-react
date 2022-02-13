@@ -5,9 +5,8 @@ import words from "./data";
 
 // the board squares change color based on this round's guess
 const updateBoardRowStatuses = (params) => {
-  let { word, round } = params;
-
-  return round.map((guess, i) => {
+  let { word, row } = params;
+  return row.map((guess, i) => {
     if (guess.letter === word[i]) {
       guess.status = "exact"; // exact match
     } else if (word.split("").includes(guess.letter)) {

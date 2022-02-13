@@ -193,7 +193,7 @@ function App() {
     let nextBoard = [...board];
     let updatedRound = updateBoardRowStatuses({
       word,
-      round: board[state.round],
+      row: board[state.rowNumber],
     });
     nextBoard[state.round] = updatedRound;
 
