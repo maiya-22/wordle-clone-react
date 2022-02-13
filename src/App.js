@@ -29,12 +29,8 @@ function App() {
   let [state, setState] = useState({
     rowNumber: 0,
     columnNumber: 0,
-
-    // before refactor:
-    // round: 0, // round is a row in the game  evaluate a round when you click "enter"
-    // position: 0, // position is the column    board[round][position] ---> points to a square
   });
-  // e.g. board[i][k] is like board[round][position]
+  // to get to a square:  board[rowNumber][columnNumber]
 
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
@@ -147,13 +143,11 @@ function App() {
   }, [word]);
 
   const guessLetter = (params) => {
-    console.log("state: ", state);
     // just places the guess in the square. Doesn't evaluate it.
     // and increments to the next position, for the next guess
     //  to do: error check, if round is over when try to guess a letter
     let { letter } = params;
     let { rowNumber, columnNumber } = state;
-    // let { round, position } = state;
     let nextBoard = [...board];
 
     if (isRowOver({ state, board })) {
@@ -166,7 +160,6 @@ function App() {
     // move to the next position/ie letter to guess
     setState({
       ...state,
-      // position: state.position + 1, // before refactor
       columnNumber: state.columnNumber + 1,
     });
   };
@@ -200,15 +193,12 @@ function App() {
     let nextKeyboard = updateKeyboardGuessStatuses({
       keyboard,
       row: updatedRow,
-      // round: updatedRound,
     });
 
     setBoard(nextBoard);
     setKeyboard(nextKeyboard);
     setState({
-      // round: state.round + 1,
       rowNumber: state.rowNumber + 1,
-      // position: 0,
       columnNumber: 0,
     });
   };
@@ -221,7 +211,6 @@ function App() {
     setState({
       ...state,
       columnNumber: state.columnNumber - 1,
-      // position: state.position - 1,
     });
     setBoard(nextBoard);
   };

@@ -29,22 +29,20 @@ const getLettersInRowHash = (params) => {
 // they keys change color, but maintain status from previous rounds
 const updateKeyboardGuessStatuses = (params) => {
   let { keyboard, row } = params;
-  // round in this is the array/row
-  // has the guesses played in this round, and their status
-  let lettersInRow = getLettersInRowHash({ row });
+
+  let lettersInRowHash = getLettersInRowHash({ row });
   // update they keyboard keys' statuses:
   return [...keyboard].map((row) => {
     return row.map((guess) => {
-      let isLetterInRow = !!lettersInRow[guess.letter];
-      if (!isLetterInRow) {
+      if (!lettersInRowHash[guess.letter]) {
         // letter was not played this round, do nothing
       } else if (guess.status === "exact") {
         // a previous match was as close, or closer than current match, do nothing
-      } else if (lettersInRow[guess.letter].status === "exact") {
+      } else if (lettersInRowHash[guess.letter].status === "exact") {
         guess.status = "exact";
       } else if (guess.status === "almost") {
         // previous match was as close, or closer than current match, do nothing
-      } else if (lettersInRow[guess.letter].status === "almost") {
+      } else if (lettersInRowHash[guess.letter].status === "almost") {
         guess.status = "almost";
       } else {
         guess.status = "no-match";
@@ -53,12 +51,6 @@ const updateKeyboardGuessStatuses = (params) => {
     });
   });
 };
-
-// const isLetterInRow= (params) => {
-//   let { state, board, guess } = params;
-//   let round = board[state.round];
-//   return round.includes(guess.letter);
-// };
 
 const isRowOver = (params) => {
   let { state, board } = params;
