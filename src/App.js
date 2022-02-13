@@ -7,7 +7,7 @@ import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
 
 import {
-  isRoundOver,
+  isRowOver,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
   isRoundComplete,
@@ -27,6 +27,10 @@ let Guess = (params = {}) => {
 
 function App() {
   let [state, setState] = useState({
+    rowNumber: 0,
+    columnNumber: 0,
+
+    // before refactor:
     round: 0, // round is a row in the game  evaluate a round when you click "enter"
     position: 0, // position is the column    board[round][position] ---> points to a square
   });
@@ -147,10 +151,11 @@ function App() {
     // and increments to the next position, for the next guess
     //  to do: error check, if round is over when try to guess a letter
     let { letter } = params;
+    let { rowNumber, columnNumber } = state;
     let { round, position } = state;
     let nextBoard = [...board];
 
-    if (isRoundOver({ state, board })) {
+    if (isRowOver({ state, board })) {
       return null;
     }
     // put the pending guess in the square:
@@ -158,7 +163,11 @@ function App() {
     // update board, with new guess
     setBoard(nextBoard);
     // move to the next position/ie letter to guess
-    setState({ ...state, position: state.position + 1 });
+    setState({
+      ...state,
+      position: state.position + 1, // before refactor
+      rowNumber: state.rowNumber + 1,
+    });
   };
 
   const guessWord = () => {

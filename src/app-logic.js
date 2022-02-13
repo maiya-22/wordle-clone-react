@@ -11,12 +11,6 @@ const getLettersInRoundHash = (params) => {
   }, {});
 };
 
-const isRoundOver = (params) => {
-  let { state, board } = params;
-  let roundLength = board[0].length;
-  return state.position >= roundLength;
-};
-
 const isLetterInRound = (params) => {
   let { state, board, guess } = params;
   let round = board[state.round];
@@ -89,8 +83,14 @@ const updateKeyboardGuessStatuses = (params) => {
   });
 };
 
+const isRowOver = (params) => {
+  let { state, board } = params;
+  let rowLength = board[0].length;
+  return state.position >= rowLength;
+};
+
 export {
-  isRoundOver,
+  isRowOver,
   isLetterInRound,
   getLettersInRoundHash,
   updateKeyboardGuessStatuses,
