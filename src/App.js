@@ -119,7 +119,7 @@ function App() {
   useEffect(() => {
     setWord(getRandomWord());
     axios
-      .get(`./netlify/lambda/dictionary`)
+      .get(`./netlify/functions/dictionary`)
       .then((res) => {
         console.log({ res });
       })
