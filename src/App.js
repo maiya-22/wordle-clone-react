@@ -114,15 +114,20 @@ function App() {
     ],
   ]);
 
+  console.log(process.env);
+
   const LAMBDA_URL =
-    process.env === "development"
+    process.env.NODE_ENV === "development"
       ? "http://localhost:9000/.netlify/functions/dictionary"
       : "./netlify/functions/dictionary";
 
   useEffect(() => {
     setWord(getRandomWord());
     axios
-      .get(LAMBDA_URL)
+      .get(LAMBDA_URL, {
+        proxy: "http://localhost",
+        port: 9000,
+      })
       .then((res) => {
         console.log({ res });
       })

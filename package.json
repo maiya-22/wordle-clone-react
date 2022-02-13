@@ -42,5 +42,6 @@
   },
   "devDependencies": {
     "netlify-lambda": "^2.0.15"
-  }
+  },
+  "proxy": "http://localhost:9000"
 }
