@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .Board {
   grid-area: board;
   margin: auto;
@@ -21,22 +23,24 @@
 .Square.pending {
   color: black;
   border: rgb(128, 128, 128) 0.1vw solid;
+  background-color: $pendingMatchBackgroundColor;
 }
 
 .Square.exact {
-  background-color: green;
+  background-color: $exactMatchBackgroundColor;
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 
 .Square.almost {
-  background-color: rgb(190, 252, 21);
+  background-color: $almostMatchBackgroundColor;
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 
 .Square.no-match {
-  background-color: rgb(107, 107, 107);
+  background-color: $noMatchBackgroundColor;
+  // background-color: rgb(107, 107, 107);
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }

@@ -1,3 +1,5 @@
+@import "../../variables.scss";
+
 .Keys {
   grid-area: keys;
   display: flex;
@@ -23,21 +25,22 @@
 .Keys__row__key.pending {
   color: black;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
+  background-color: $pendingMatchBackgroundColor;
 }
 .Keys__row__key.exact {
-  background-color: green;
+  background-color: $exactMatchBackgroundColor;
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 
 .Keys__row__key.almost {
-  background-color: rgb(190, 252, 21);
+  background-color: $almostMatchBackgroundColor;
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 
 .Keys__row__key.no-match {
-  background-color: rgb(107, 107, 107);
+  background-color: $noMatchBackgroundColor;
   color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
