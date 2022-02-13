@@ -1962,6 +1962,8 @@ const words = [
   }, {});
 
 let moreWords = `
+forts
+fires
 able
 about
 above

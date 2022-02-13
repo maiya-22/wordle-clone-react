@@ -237,7 +237,6 @@ function App() {
       <Header />
       <Board>
         {board.map((row, i) => {
-          console.log("mode:", mode);
           let errorAnimationStyles = {};
           if (mode === "word-error" && state.rowNumber === i) {
             errorAnimationStyles = {
