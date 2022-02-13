@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios";
 import { v4 as uuid } from "uuid";
 import { getRandomWord } from "./data";
 import "./App.scss";
@@ -14,7 +15,6 @@ import {
   isRowComplete,
   isRowOver,
 } from "./app-logic";
-import axios from "axios";
 
 // the guess.status is used as a className, to color the squares and keys
 // the letter renders in square and key divs
@@ -142,7 +142,7 @@ function App() {
     });
   }, [word]);
 
-  const guessLetter = (params) => {
+  const placeLetterGuess = (params) => {
     // just places the guess in the square. Doesn't evaluate it.
     // and increments to the next position, for the next guess
     //  to do: error check, if round is over when try to guess a letter
@@ -224,10 +224,11 @@ function App() {
     } else if (letter === "delete") {
       deleteLetter();
     } else {
-      guessLetter({ letter, status });
+      placeLetterGuess({ letter });
     }
   };
 
+  // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
   return (
     <div className="App">
       <Header />
