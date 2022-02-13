@@ -19,9 +19,9 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
-const getWordFromRound = (params) => {
-  let { round } = params;
-  return round
+const getWordFromRow = (params) => {
+  let { row } = params;
+  return row
     .map((guess) => {
       return guess.letter;
     })
@@ -29,8 +29,8 @@ const getWordFromRound = (params) => {
 };
 
 const isInWordList = (params) => {
-  let { round } = params;
-  let word = getWordFromRound({ round });
+  let { row } = params;
+  let word = getWordFromRow({ row });
   return words.includes(word);
 };
 
@@ -95,5 +95,5 @@ export {
   updateBoardRowStatuses,
   isRowComplete,
   isInWordList,
-  getWordFromRound,
+  getWordFromRow,
 };

@@ -10,7 +10,7 @@ import {
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
   isInWordList,
-  getWordFromRound,
+  getWordFromRow,
   isRowComplete,
   isRowOver,
 } from "./app-logic";
@@ -153,7 +153,7 @@ function App() {
     //  to do: error check, if round is over when try to guess a letter
     let { letter } = params;
     let { rowNumber, columnNumber } = state;
-    let { round, position } = state;
+    // let { round, position } = state;
     let nextBoard = [...board];
 
     if (isRowOver({ state, board })) {
@@ -181,10 +181,10 @@ function App() {
       return null;
     }
 
-    if (!isInWordList({ round: board[state.round] })) {
+    if (!isInWordList({ row: board[state.rowNumber] })) {
       console.warn(
-        `${getWordFromRound({
-          round: board[state.round],
+        `${getWordFromRow({
+          row: board[state.rowNumber],
         })} is not in words list`
       );
       return null;
