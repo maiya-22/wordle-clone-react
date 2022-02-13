@@ -75,11 +75,11 @@ const updateKeyboardGuessStatuses = (params) => {
         // letter was not played this round, do nothing
       } else if (guess.status === "exact") {
         // a previous match was as close, or closer than current match, do nothing
-      } else if (lettersInRound[letter].status === "exact") {
+      } else if (lettersInRound[guess.letter].status === "exact") {
         guess.status = "exact";
       } else if (guess.status === "almost") {
         // previous match was as close, or closer than current match, do nothing
-      } else if (lettersInRound[letter].status === "almost") {
+      } else if (lettersInRound[guess.letter].status === "almost") {
         guess.status = "almost";
       } else {
         guess.status = "no-match";
