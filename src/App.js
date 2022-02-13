@@ -114,12 +114,15 @@ function App() {
     ],
   ]);
 
-  console.log(process.env);
+  const LAMBDA_URL =
+    process.env === "development"
+      ? "http://localhost:9000/.netlify/functions/dictionary"
+      : "./netlify/functions/dictionary";
 
   useEffect(() => {
     setWord(getRandomWord());
     axios
-      .get(`./netlify/functions/dictionary`)
+      .get(LAMBDA_URL)
       .then((res) => {
         console.log({ res });
       })
@@ -127,7 +130,6 @@ function App() {
   }, []);
 
   useEffect(() => {
-    // console.log("process.ENV", process.ENV);
     console.log({
       "to cheat": {
         "the word is": word,
