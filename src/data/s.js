@@ -1,4 +1,5 @@
 export default {
+  scare: {},
   seize: {},
   serve: {},
   sharp: {},

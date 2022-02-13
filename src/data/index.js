@@ -4,16 +4,15 @@ import miscellaneousWords from "./miscellaneous-words";
 import a from "./a";
 import s from "./s";
 
-const words = {
+const words = Object.keys({
   ...a,
   ...s,
   ...miscellaneousWords,
-};
+});
 
 const getRandomWord = () => {
-  let wordKeys = Object.keys(words);
-  let randomIndex = Math.floor(Math.random() * wordKeys.length);
-  return wordKeys[randomIndex];
+  let randomIndex = Math.floor(Math.random() * words.length);
+  return words[randomIndex];
 };
 
 const fetchRandomWord = async () => {
@@ -24,4 +23,4 @@ const fetchRandomWord = async () => {
   }
 };
 
-export { fetchRandomWord, getRandomWord as default };
+export { fetchRandomWord, getRandomWord, words as default };

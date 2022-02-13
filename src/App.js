@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
-import getRandomWord from "./data";
+import { getRandomWord } from "./data";
 import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
@@ -10,6 +10,9 @@ import {
   isRoundOver,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
+  isRoundComplete,
+  isInWordList,
+  getWordFromRound,
 } from "./app-logic";
 
 // the guess.status is used as a className, to color the squares and keys
@@ -145,6 +148,20 @@ function App() {
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
+
+    if (!isRoundComplete({ round: board[state.round] })) {
+      console.warn("to do: is complete?");
+      return null;
+    }
+
+    if (!isInWordList({ round: board[state.round] })) {
+      console.warn(
+        `${getWordFromRound({
+          round: board[state.round],
+        })} is not in words list`
+      );
+      return null;
+    }
 
     let nextBoard = [...board];
     let updatedRound = updateBoardRowStatuses({

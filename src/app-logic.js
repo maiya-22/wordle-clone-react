@@ -1,3 +1,5 @@
+import words from "./data";
+
 // make a hash out of the letters played in the last round, to easily get their status
 // eg { "s": { letter: "s", status: "exact"}} for letters in round
 
@@ -39,6 +41,28 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
+const isRoundComplete = (params) => {
+  let { round } = params;
+  return round.reduce((isComplete, guess) => {
+    return isComplete && !!guess.letter;
+  }, true);
+};
+
+const getWordFromRound = (params) => {
+  let { round } = params;
+  return round
+    .map((guess) => {
+      return guess.letter;
+    })
+    .join("");
+};
+
+const isInWordList = (params) => {
+  let { round } = params;
+  let word = getWordFromRound({ round });
+  return words.includes(word);
+};
+
 // they keys change color, but maintain status from previous rounds
 const updateKeyboardGuessStatuses = (params) => {
   let { keyboard, round } = params;
@@ -72,4 +96,7 @@ export {
   getLettersInRoundHash,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
+  isRoundComplete,
+  isInWordList,
+  getWordFromRound,
 };
