@@ -167,11 +167,14 @@ function App() {
     // update the keyboard, for any new keys that were matched and/or tried, etc
 
     if (!isRowComplete({ row: board[state.rowNumber] })) {
+      setMode("word-error");
       console.warn("to do: is complete?");
+
       return null;
     }
 
     if (!isInWordList({ row: board[state.rowNumber] })) {
+      setMode("word-error");
       console.warn(
         `${getWordFromRow({
           row: board[state.rowNumber],
@@ -220,6 +223,7 @@ function App() {
       setMode("guessing");
       guessWord();
     } else if (letter === "delete") {
+      if (mode != "idle") setMode("idle");
       deleteLetter();
     } else {
       if (mode != "idle") setMode("idle");
@@ -233,8 +237,19 @@ function App() {
       <Header />
       <Board>
         {board.map((row, i) => {
+          console.log("mode:", mode);
+          let errorAnimationStyles = {};
+          if (mode === "word-error" && state.rowNumber === i) {
+            errorAnimationStyles = {
+              animation: `headShake 1s  0s forwards ease-in-out`,
+            };
+          }
           return (
-            <div key={uuid()} className="Board__row">
+            <div
+              key={uuid()}
+              className="Board__row"
+              style={errorAnimationStyles}
+            >
               {row.map((guess, k) => {
                 let appearAnimationStyles = {};
                 if (i === state.rowNumber - 1 && mode === "guessing") {
