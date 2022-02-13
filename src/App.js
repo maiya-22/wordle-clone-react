@@ -14,6 +14,7 @@ import {
   isInWordList,
   getWordFromRound,
 } from "./app-logic";
+import axios from "axios";
 
 // the guess.status is used as a className, to color the squares and keys
 // the letter renders in square and key divs
@@ -113,11 +114,20 @@ function App() {
     ],
   ]);
 
+  console.log(process.env);
+
   useEffect(() => {
     setWord(getRandomWord());
+    axios
+      .get(`./netlify/functions/dictionary`)
+      .then((res) => {
+        console.log({ res });
+      })
+      .catch(console.error);
   }, []);
 
   useEffect(() => {
+    // console.log("process.ENV", process.ENV);
     console.log({
       "to cheat": {
         "the word is": word,
