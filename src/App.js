@@ -14,6 +14,8 @@ import {
   getWordFromRow,
   isRowComplete,
   isRowOver,
+  getErrorAnimationStyles,
+  getAppearAnimationStyles,
 } from "./app-logic";
 
 // the guess.status is used as a className, to color the squares and keys
@@ -237,30 +239,16 @@ function App() {
       <Header />
       <Board>
         {board.map((row, i) => {
-          let errorAnimationStyles = {};
-          if (mode === "word-error" && state.rowNumber === i) {
-            errorAnimationStyles = {
-              animation: `headShake 1s  0s forwards ease-in-out`,
-            };
-          }
           return (
             <div
               key={uuid()}
               className="Board__row"
-              style={errorAnimationStyles}
+              style={getErrorAnimationStyles({ mode, state, i })}
             >
               {row.map((guess, k) => {
-                let appearAnimationStyles = {};
-                if (i === state.rowNumber - 1 && mode === "guessing") {
-                  appearAnimationStyles = {
-                    backfaceVisibility: "visible !important",
-                    opacity: 0,
-                    animation: `flipInX 1s  ${k * 0.25}s forwards`,
-                  };
-                }
                 return (
                   <button
-                    style={appearAnimationStyles}
+                    style={getAppearAnimationStyles({ mode, state, i, k })}
                     className={`Square ${guess.status}`}
                     key={uuid()}
                   >

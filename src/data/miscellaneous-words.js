@@ -1964,6 +1964,13 @@ const words = [
 let moreWords = `
 forts
 fires
+crown
+grins
+cries
+sweat
+slows
+gross
+bully
 able
 about
 above

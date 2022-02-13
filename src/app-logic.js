@@ -80,6 +80,28 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
+const getErrorAnimationStyles = (params) => {
+  let { mode, state, i } = params; //i is the index of the row
+  if (mode === "word-error" && state.rowNumber === i) {
+    return {
+      animation: `headShake 1s  0s forwards ease-in-out`,
+    };
+  }
+  return {};
+};
+
+const getAppearAnimationStyles = (params) => {
+  let { mode, state, i, k } = params; //i is the index of the row. k is the index of the column
+  if (i === state.rowNumber - 1 && mode === "guessing") {
+    return {
+      backfaceVisibility: "visible !important",
+      opacity: 0,
+      animation: `flipInX 1s  ${k * 0.25}s forwards`,
+    };
+  }
+  return {};
+};
+
 export {
   isRowOver,
   updateKeyboardGuessStatuses,
@@ -87,4 +109,6 @@ export {
   isRowComplete,
   isInWordList,
   getWordFromRow,
+  getErrorAnimationStyles,
+  getAppearAnimationStyles,
 };
