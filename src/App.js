@@ -31,8 +31,8 @@ function App() {
     columnNumber: 0,
 
     // before refactor:
-    round: 0, // round is a row in the game  evaluate a round when you click "enter"
-    position: 0, // position is the column    board[round][position] ---> points to a square
+    // round: 0, // round is a row in the game  evaluate a round when you click "enter"
+    // position: 0, // position is the column    board[round][position] ---> points to a square
   });
   // e.g. board[i][k] is like board[round][position]
 
@@ -166,7 +166,7 @@ function App() {
     // move to the next position/ie letter to guess
     setState({
       ...state,
-      position: state.position + 1, // before refactor
+      // position: state.position + 1, // before refactor
       columnNumber: state.columnNumber + 1,
     });
   };
@@ -191,24 +191,24 @@ function App() {
     }
 
     let nextBoard = [...board];
-    let updatedRound = updateBoardRowStatuses({
+    let updatedRow = updateBoardRowStatuses({
       word,
       row: board[state.rowNumber],
     });
-    nextBoard[state.round] = updatedRound;
+    nextBoard[state.rowNumber] = updatedRow;
 
     let nextKeyboard = updateKeyboardGuessStatuses({
       keyboard,
-      row: updatedRound,
-      round: updatedRound,
+      row: updatedRow,
+      // round: updatedRound,
     });
 
     setBoard(nextBoard);
     setKeyboard(nextKeyboard);
     setState({
-      round: state.round + 1,
+      // round: state.round + 1,
       rowNumber: state.rowNumber + 1,
-      position: 0,
+      // position: 0,
       columnNumber: 0,
     });
   };
@@ -221,7 +221,7 @@ function App() {
     setState({
       ...state,
       columnNumber: state.columnNumber - 1,
-      position: state.position - 1,
+      // position: state.position - 1,
     });
     setBoard(nextBoard);
   };
