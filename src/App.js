@@ -218,7 +218,7 @@ function App() {
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
     let { dataset } = e.target;
-    let { letter, status } = dataset;
+    let { letter } = dataset;
     if (letter === "enter") {
       guessWord();
     } else if (letter === "delete") {
