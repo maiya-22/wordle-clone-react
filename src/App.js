@@ -162,7 +162,6 @@ function App() {
   };
 
   const guessWord = () => {
-    console.log("set state:", state);
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
