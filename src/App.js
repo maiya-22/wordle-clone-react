@@ -16,6 +16,7 @@ import {
   isRowOver,
   getErrorAnimationStyles,
   getAppearAnimationStyles,
+  isGameOver,
 } from "./app-logic";
 
 // the guess.status is used as a className, to color the squares and keys
@@ -171,7 +172,6 @@ function App() {
     if (!isRowComplete({ row: board[state.rowNumber] })) {
       setMode("word-error");
       console.warn("to do: is complete?");
-
       return null;
     }
 
@@ -219,6 +219,10 @@ function App() {
 
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
+    if (isGameOver({ state, board })) {
+      console.warn("game over");
+      return null;
+    }
     let { dataset } = e.target;
     let { letter } = dataset;
     if (letter === "enter") {

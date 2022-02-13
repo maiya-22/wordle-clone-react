@@ -3,6 +3,11 @@ import words from "./data";
 // make a hash out of the letters played in the last round, to easily get their status
 // eg { "s": { letter: "s", status: "exact"}} for letters in round
 
+const isGameOver = (params) => {
+  let { board, state } = params;
+  return state.rowNumber >= board.length;
+};
+
 const getWordFromRow = (params) => {
   let { row } = params;
   return row
@@ -111,4 +116,5 @@ export {
   getWordFromRow,
   getErrorAnimationStyles,
   getAppearAnimationStyles,
+  isGameOver,
 };
