@@ -3,9 +3,9 @@ import words from "./data";
 // make a hash out of the letters played in the last round, to easily get their status
 // eg { "s": { letter: "s", status: "exact"}} for letters in round
 
-const getLettersInRoundHash = (params) => {
-  let { round } = params;
-  return round.reduce((hash, guess) => {
+const getLettersInRowHash = (params) => {
+  let { row } = params;
+  return row.reduce((hash, guess) => {
     hash[guess.letter] = guess;
     return hash;
   }, {});
@@ -50,10 +50,10 @@ const isInWordList = (params) => {
 
 // they keys change color, but maintain status from previous rounds
 const updateKeyboardGuessStatuses = (params) => {
-  let { keyboard, round } = params;
+  let { keyboard, round, row } = params;
   // round in this is the array/row
   // has the guesses played in this round, and their status
-  let lettersInRound = getLettersInRoundHash({ round });
+  let lettersInRound = getLettersInRowHash({ row });
   // update they keyboard keys' statuses:
   return [...keyboard].map((row) => {
     return row.map((guess) => {
@@ -92,7 +92,6 @@ const isRowComplete = (params) => {
 export {
   isRowOver,
   isLetterInRound,
-  getLettersInRoundHash,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
   isRowComplete,

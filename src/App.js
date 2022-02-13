@@ -199,6 +199,7 @@ function App() {
 
     let nextKeyboard = updateKeyboardGuessStatuses({
       keyboard,
+      row: updatedRound,
       round: updatedRound,
     });
 
