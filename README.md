@@ -16,3 +16,7 @@
 
 - `npm run lambda`
 - http://localhost:9000/.netlify/functions/dictionary
+
+### Project Kanban Board
+
+- https://github.com/maiya-22/wordle-clone-react/projects/1?add_cards_query=is%3Aopen
