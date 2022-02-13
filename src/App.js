@@ -183,9 +183,15 @@ function App() {
     });
   };
 
-  const deleteLetter = (props) => {
-    let { e } = props;
-    console.log("delete letter");
+  const deleteLetter = () => {
+    let emptyGuess = Guess({ letter: null, status: "none" });
+    let nextBoard = [...board];
+    nextBoard[state.round][state.position - 1] = emptyGuess;
+    setState({
+      ...state,
+      position: state.position - 1,
+    });
+    setBoard(nextBoard);
   };
 
   // see which key was clicked and call move
@@ -195,9 +201,9 @@ function App() {
     if (letter === "enter") {
       guessWord();
     } else if (letter === "delete") {
-      deleteLetter({ e });
+      deleteLetter();
     } else {
-      guessLetter({ e, letter, status });
+      guessLetter({ letter, status });
     }
   };
 
