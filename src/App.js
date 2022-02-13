@@ -214,10 +214,10 @@ function App() {
   };
 
   const deleteLetter = () => {
-    if (state.rowNumber <= 0) return null;
+    if (state.columnNumber <= 0) return null;
     let emptyGuess = Guess({ letter: null, status: "none" });
     let nextBoard = [...board];
-    nextBoard[state.round][state.position - 1] = emptyGuess;
+    nextBoard[state.rowNumber][state.columnNumber - 1] = emptyGuess;
     setState({
       ...state,
       columnNumber: state.columnNumber - 1,
