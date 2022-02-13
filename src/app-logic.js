@@ -3,20 +3,6 @@ import words from "./data";
 // make a hash out of the letters played in the last round, to easily get their status
 // eg { "s": { letter: "s", status: "exact"}} for letters in round
 
-const getLettersInRowHash = (params) => {
-  let { row } = params;
-  return row.reduce((hash, guess) => {
-    hash[guess.letter] = guess;
-    return hash;
-  }, {});
-};
-
-const isLetterInRound = (params) => {
-  let { state, board, guess } = params;
-  let round = board[state.round];
-  return round.includes(guess.letter);
-};
-
 // the board squares change color based on this round's guess
 const updateBoardRowStatuses = (params) => {
   let { word, round } = params;
@@ -48,6 +34,14 @@ const isInWordList = (params) => {
   return words.includes(word);
 };
 
+const getLettersInRowHash = (params) => {
+  let { row } = params;
+  return row.reduce((hash, guess) => {
+    hash[guess.letter] = guess;
+    return hash;
+  }, {});
+};
+
 // they keys change color, but maintain status from previous rounds
 const updateKeyboardGuessStatuses = (params) => {
   let { keyboard, round, row } = params;
@@ -76,6 +70,12 @@ const updateKeyboardGuessStatuses = (params) => {
   });
 };
 
+// const isLetterInRow= (params) => {
+//   let { state, board, guess } = params;
+//   let round = board[state.round];
+//   return round.includes(guess.letter);
+// };
+
 const isRowOver = (params) => {
   let { state, board } = params;
   let rowLength = board[0].length;
@@ -91,7 +91,6 @@ const isRowComplete = (params) => {
 
 export {
   isRowOver,
-  isLetterInRound,
   updateKeyboardGuessStatuses,
   updateBoardRowStatuses,
   isRowComplete,
