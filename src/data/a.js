@@ -1,5 +1,4 @@
-export default {
-  apple: {},
-  after: {},
-  acres: {},
-};
+export default `
+  apple
+  after
+  acres`;

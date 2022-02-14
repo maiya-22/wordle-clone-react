@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
 import { getRandomWord } from "./data";
@@ -21,6 +21,7 @@ import {
 
 // the guess.status is used as a className, to color the squares and keys
 // the letter renders in square and key divs
+
 let Guess = (params = {}) => {
   return {
     letter: params.letter || null,
@@ -35,6 +36,7 @@ function App() {
   });
   // to get to a square:  board[rowNumber][columnNumber]
 
+  let [clickedKey, setClickedKey] = useState(null);
   let [mode, setMode] = useState("idle");
   let [word, setWord] = useState("");
   let [board, setBoard] = useState([
@@ -156,6 +158,7 @@ function App() {
     // put the pending guess in the square:
     nextBoard[rowNumber][columnNumber] = Guess({ letter, status: "pending" });
     // update board, with new guess
+
     setBoard(nextBoard);
     // move to the next position/ie letter to guess
     setState({
@@ -233,6 +236,7 @@ function App() {
       deleteLetter();
     } else {
       if (mode != "idle") setMode("idle");
+
       placeLetterGuess({ letter });
     }
   };

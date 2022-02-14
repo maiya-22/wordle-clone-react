@@ -1,13 +1,34 @@
 import axios from "axios";
-// filtering out non-5 letter words ---> gives around 400
-import miscellaneousWords from "./miscellaneous-words";
-import a from "./a";
-import s from "./s";
 
-const words = Object.keys({
-  ...a,
-  ...s,
-  ...miscellaneousWords,
+// temp data:
+import a from "./a"; //template string
+import s from "./s"; // template string
+import one from "./miscellaneous-words"; // arr
+import two from "./miscellaneous-words-01"; //template string
+
+const wordsHash = {};
+
+const filterWords = (words) => {
+  return words
+    .filter((w) => w.length === 5 || w.length === 4)
+    .map((word) => {
+      return word.length === 5 ? word : `${word}s`; //and an s to words w/ 4 letters
+    });
+};
+
+const transformTemplateStringIntoArray = (string) => {
+  return string.split("\n");
+};
+
+const words = [
+  ...filterWords(transformTemplateStringIntoArray(a)),
+  ...filterWords(transformTemplateStringIntoArray(s)),
+  ...filterWords(one),
+  ...filterWords(transformTemplateStringIntoArray(two)),
+];
+
+words.forEach((word) => {
+  wordsHash[word] = true;
 });
 
 const getRandomWord = () => {
