@@ -67,3 +67,17 @@ const fetchRandomWord = async () => {
 };
 
 export { fetchRandomWord, getRandomWord, words as default };
+// console.log(process.env);
+// const LAMBDA_URL =
+//   process.env.NODE_ENV === "development"
+//     ? "http://localhost:9000/.netlify/functions/dictionary"
+//     : "./netlify/functions/dictionary";
+// axios
+//   .get(LAMBDA_URL, {
+//     proxy: "http://localhost",
+//     port: 9000,
+//   })
+//   .then((res) => {
+//     console.log({ res });
+//   })
+//   .catch(console.error);

@@ -1,5 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
-import axios from "axios";
+import React, { useState, useEffect } from "react";
 import { v4 as uuid } from "uuid";
 import { fetchRandomWord } from "./data";
 import "./App.scss";
@@ -16,7 +15,6 @@ import {
   isRowOver,
   getRowAnimationStyles,
   getSquareAnimationStyles,
-  getKeyAnimationStyles,
   isGameOver,
 } from "./app-logic";
 
@@ -62,13 +60,6 @@ function App() {
   let [word, setWord] = useState("... loading word");
   let [message, setMessage] = useState("");
 
-  // console.log(process.env);
-
-  // const LAMBDA_URL =
-  //   process.env.NODE_ENV === "development"
-  //     ? "http://localhost:9000/.netlify/functions/dictionary"
-  //     : "./netlify/functions/dictionary";
-
   useEffect(() => {
     fetchRandomWord()
       .then((word) => {
@@ -76,16 +67,6 @@ function App() {
         setMode("init-game");
       })
       .catch(console.error);
-    // setWord(getRandomWord());
-    // axios
-    //   .get(LAMBDA_URL, {
-    //     proxy: "http://localhost",
-    //     port: 9000,
-    //   })
-    //   .then((res) => {
-    //     console.log({ res });
-    //   })
-    //   .catch(console.error);
   }, []);
 
   const placeLetterGuess = (params) => {
