@@ -1,4 +1,5 @@
 export default `
+hedge
 glint
 nicer
 crabs
