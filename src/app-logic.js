@@ -1,3 +1,4 @@
+import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import words from "./data";
 
 // make a hash out of the letters played in the last round, to easily get their status
@@ -85,6 +86,29 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
+const getKeyAnimationStyles = (params) => {
+  let { mode, key } = params;
+  if (mode != "guessing") {
+    return {};
+  }
+  switch (key.status) {
+    case "exact":
+      return {
+        animation: `fadeUp 2s forwards ease-in-out`,
+      };
+    case "almost":
+      return {
+        animation: `fadeUp 1s forwards ease-in-out`,
+      };
+    case "no-match":
+      return {
+        animation: `fadeUp 0s forwards ease-in-out`,
+      };
+    default:
+      return {};
+  }
+};
+
 const getRowAnimationStyles = (params) => {
   let { mode, state, i } = params; //i is the index of the row
 
@@ -148,5 +172,6 @@ export {
   getWordFromRow,
   getRowAnimationStyles,
   getSquareAnimationStyles,
+  getKeyAnimationStyles,
   isGameOver,
 };

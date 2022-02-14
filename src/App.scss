@@ -51,6 +51,13 @@ header {
   padding: 2vw;
 }
 
+.Header__temp-dev-button {
+  margin: 0.5vw;
+  padding: 0.5vw;
+  border: solid lightgray 1px;
+  border-radius: 0.2rem;
+}
+
 footer {
   grid-area: footer;
   padding: 2vw;

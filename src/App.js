@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import { getRandomWord, fetchRandomWord } from "./data";
+import { fetchRandomWord } from "./data";
 import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
@@ -16,6 +16,7 @@ import {
   isRowOver,
   getRowAnimationStyles,
   getSquareAnimationStyles,
+  getKeyAnimationStyles,
   isGameOver,
 } from "./app-logic";
 
@@ -256,6 +257,7 @@ function App() {
     let { dataset } = e.target;
     let { letter } = dataset;
     if (letter === "enter") {
+      console.log("clicked enter");
       setMode("guessing");
       guessWord();
     } else if (letter === "delete") {
@@ -275,12 +277,7 @@ function App() {
           {message}{" "}
           {mode != "you-won" && (
             <button
-              style={{
-                margin: ".5vw",
-                padding: ".5vw",
-                border: "solid lightgray 1px",
-                borderRadius: "0.2rem",
-              }}
+              className="Header__temp-dev-button"
               onClick={(e) => {
                 e.preventDefault();
                 e.target.innerHTML = `The word is "${word}"`;
@@ -321,6 +318,7 @@ function App() {
               {row.map((key) => {
                 return (
                   <button
+                    style={getKeyAnimationStyles({ mode, key })}
                     data-letter={key.letter}
                     data-status={key.status}
                     className={`Keys__row__key ${key.status}`}
@@ -335,9 +333,7 @@ function App() {
           );
         })}
       </Keys>
-      <footer>
-        <pre>(to cheat, see the console for the word)</pre>
-      </footer>
+      <footer></footer>
     </div>
   );
 }

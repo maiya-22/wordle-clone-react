@@ -41,6 +41,16 @@
 
 .Keys__row__key.no-match {
   background-color: $noMatchBackgroundColor;
-  color: $noMatchColor;
+  color: white;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
+}
+
+@keyframes fadeUp {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
 }

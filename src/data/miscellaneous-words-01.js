@@ -1,4 +1,15 @@
 export default `
+pleat
+fried
+clown
+agile
+shame
+pout
+tout
+exit
+plyer
+kite
+stalk
 forts
 frown
 fires
