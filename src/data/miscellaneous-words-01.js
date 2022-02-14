@@ -1,5 +1,6 @@
 export default `
 forts
+frown
 fires
 crown
 grins

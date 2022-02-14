@@ -42,7 +42,7 @@
 .Square.no-match {
   background-color: $noMatchBackgroundColor;
   // background-color: rgb(107, 107, 107);
-  color: white;
+  color: $noMatchColor;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }
 

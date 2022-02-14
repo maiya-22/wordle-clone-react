@@ -41,6 +41,6 @@
 
 .Keys__row__key.no-match {
   background-color: $noMatchBackgroundColor;
-  color: white;
+  color: $noMatchColor;
   border: rgba(128, 128, 128, 0) 0.1vw solid;
 }

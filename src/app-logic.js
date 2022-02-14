@@ -87,11 +87,7 @@ const updateBoardRowStatuses = (params) => {
 
 const getRowAnimationStyles = (params) => {
   let { mode, state, i } = params; //i is the index of the row
-  if (mode === "you-won" && state.rowNumber - 1 === i) {
-    return {
-      animation: `tada 1s  0s forwards ease-in-out`,
-    };
-  }
+
   if (mode === "word-error" && state.rowNumber === i) {
     return {
       animation: `headShake 1s  0s forwards ease-in-out`,
@@ -100,8 +96,14 @@ const getRowAnimationStyles = (params) => {
   return {};
 };
 
-const getAppearAnimationStyles = (params) => {
+const getSquareAnimationStyles = (params) => {
   let { mode, state, i, k } = params; //i is the index of the row. k is the index of the column
+
+  if (mode === "you-won" && state.rowNumber - 1 === i) {
+    return {
+      animation: `tada 1s  ${k / 10}s forwards ease-in-out`,
+    };
+  }
 
   if (mode === "init-game") {
     return {
@@ -145,6 +147,6 @@ export {
   isInWordList,
   getWordFromRow,
   getRowAnimationStyles,
-  getAppearAnimationStyles,
+  getSquareAnimationStyles,
   isGameOver,
 };

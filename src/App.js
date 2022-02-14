@@ -15,7 +15,7 @@ import {
   isRowComplete,
   isRowOver,
   getRowAnimationStyles,
-  getAppearAnimationStyles,
+  getSquareAnimationStyles,
   isGameOver,
 } from "./app-logic";
 
@@ -248,9 +248,9 @@ function App() {
 
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
+    if (mode === "you-won") return null; // no more plays
     if (isGameOver({ state, board })) {
-      setMessage(`game over. word: ${word}`);
-      console.warn("game over");
+      setMessage(`game over. word: ${word}`); // show word
       return null;
     }
     let { dataset } = e.target;
@@ -262,7 +262,6 @@ function App() {
       if (mode != "idle") setMode("idle");
       deleteLetter();
     } else {
-      console.log("mode:", mode);
       if (mode != "idle") setMode("idle");
       placeLetterGuess({ letter });
     }
@@ -273,21 +272,23 @@ function App() {
     <div className="App">
       <Header>
         <div>
-          {message}
-          <button
-            style={{
-              margin: ".5vw",
-              padding: ".5vw",
-              border: "solid lightgray 1px",
-              borderRadius: "0.2rem",
-            }}
-            onClick={(e) => {
-              e.preventDefault();
-              e.target.innerHTML = `The word is "${word}"`;
-            }}
-          >
-            click to see word:
-          </button>
+          {message}{" "}
+          {mode != "you-won" && (
+            <button
+              style={{
+                margin: ".5vw",
+                padding: ".5vw",
+                border: "solid lightgray 1px",
+                borderRadius: "0.2rem",
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.target.innerHTML = `The word is "${word}"`;
+              }}
+            >
+              click to see word
+            </button>
+          )}
         </div>
       </Header>
       <Board>
@@ -301,7 +302,7 @@ function App() {
               {row.map((guess, k) => {
                 return (
                   <button
-                    style={getAppearAnimationStyles({ mode, state, i, k })}
+                    style={getSquareAnimationStyles({ mode, state, i, k })}
                     className={`Square ${guess.status}`}
                     key={uuid()}
                   >
