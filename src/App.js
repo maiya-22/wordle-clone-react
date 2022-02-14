@@ -235,10 +235,10 @@ function App() {
     });
     if (!getWordFromRow({ row: board[state.rowNumber] }) != word) {
       if (isGameOver({ state, board })) {
+        setMessage(`game over. word: ${word}`); // show word
         setTimeout(() => {
-          setMessage(`game over. word: ${word}`); // show word
           setMode("game-over");
-        }, 1000);
+        }, 3000);
       }
     }
   };

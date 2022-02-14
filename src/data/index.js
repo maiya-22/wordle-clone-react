@@ -28,6 +28,7 @@ const filterWords = (words) => {
         vasts: true,
         laids: true,
         gones: true,
+        huges: true,
       };
       return !hash[w];
     });
