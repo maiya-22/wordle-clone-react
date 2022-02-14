@@ -69,86 +69,28 @@ function App() {
     //   .catch(console.error);
   }, []);
 
-  let [board, setBoard] = useState([
+  // 7 columns and 5 rows nested array. Each row has an empty guess
+  let [board, setBoard] = useState(
+    [1, 2, 3, 4, 5, 6, 7].map((row) => {
+      return [1, 2, 3, 4, 5].map((column) => {
+        let emptyGuess = Guess({ letter: null, status: "none" });
+        return emptyGuess;
+      });
+    })
+  );
+
+  // keyboard rows, each with a 'guess' object, with keyboard letter
+  let [keyboard, setKeyboard] = useState(
     [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-    [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-    [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-    [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-    [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-    [
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-      Guess({ letter: null, status: "none" }),
-    ],
-  ]);
-  let [keyboard, setKeyboard] = useState([
-    [
-      Guess({ letter: "q", status: "none" }),
-      Guess({ letter: "w", status: "none" }),
-      Guess({ letter: "e", status: "none" }),
-      Guess({ letter: "r", status: "none" }),
-      Guess({ letter: "t", status: "none" }),
-      Guess({ letter: "y", status: "none" }),
-      Guess({ letter: "u", status: "none" }),
-      Guess({ letter: "i", status: "none" }),
-      Guess({ letter: "o", status: "none" }),
-      Guess({ letter: "p", status: "none" }),
-    ],
-    [
-      Guess({ letter: "a", status: "none" }),
-      Guess({ letter: "s", status: "none" }),
-      Guess({ letter: "d", status: "none" }),
-      Guess({ letter: "f", status: "none" }),
-      Guess({ letter: "g", status: "none" }),
-      Guess({ letter: "h", status: "none" }),
-      Guess({ letter: "j", status: "none" }),
-      Guess({ letter: "k", status: "none" }),
-      Guess({ letter: "l", status: "none" }),
-    ],
-    [
-      Guess({ letter: "enter", status: "none" }),
-      Guess({ letter: "z", status: "none" }),
-      Guess({ letter: "x", status: "none" }),
-      Guess({ letter: "c", status: "none" }),
-      Guess({ letter: "v", status: "none" }),
-      Guess({ letter: "b", status: "none" }),
-      Guess({ letter: "n", status: "none" }),
-      Guess({ letter: "m", status: "none" }),
-      Guess({ letter: "delete", status: "none" }),
-    ],
-  ]);
+      "q w e r t y u i o p".split(" "),
+      "a s d f g h j k l".split(" "),
+      "enter z x c y b n m delete".split(" "),
+    ].map((row) => {
+      return row.map((letter) => {
+        return Guess({ letter, status: "none" });
+      });
+    })
+  );
 
   const placeLetterGuess = (params) => {
     // just places the guess in the square. Doesn't evaluate it.
