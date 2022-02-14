@@ -1,6 +1,12 @@
-### Wordle Clone
+trying a mermaid graph
 
-- in progress, clone of the wordle game.
+```mermaid
+graph TD;
+    A[download repo]-->B[npm install];
+    B-->C[npm run start];
+```
+
+### Wordle Clone
 
 ### Deploy
 
