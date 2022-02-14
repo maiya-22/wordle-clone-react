@@ -22,7 +22,6 @@ import {
 
 // the guess.status is used as a className, to color the squares and keys
 // the letter renders in square and key divs
-
 let Guess = (params = {}) => {
   return {
     letter: params.letter || null,
@@ -35,11 +34,21 @@ function App() {
     rowNumber: 0,
     columnNumber: 0,
   });
-  // to get to a square:  board[rowNumber][columnNumber]
 
+  // to get to a square:  board[rowNumber][columnNumber]
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
   let [message, setMessage] = useState("");
+  useEffect(() => {
+    console.log("the word is", `"${word}"`);
+  }, [word]);
+
+  // console.log(process.env);
+
+  // const LAMBDA_URL =
+  //   process.env.NODE_ENV === "development"
+  //     ? "http://localhost:9000/.netlify/functions/dictionary"
+  //     : "./netlify/functions/dictionary";
 
   useEffect(() => {
     fetchRandomWord()
@@ -140,17 +149,6 @@ function App() {
       Guess({ letter: "delete", status: "none" }),
     ],
   ]);
-
-  // console.log(process.env);
-
-  const LAMBDA_URL =
-    process.env.NODE_ENV === "development"
-      ? "http://localhost:9000/.netlify/functions/dictionary"
-      : "./netlify/functions/dictionary";
-
-  useEffect(() => {
-    console.log("the word is", `"${word}"`);
-  }, [word]);
 
   const placeLetterGuess = (params) => {
     // just places the guess in the square. Doesn't evaluate it.
@@ -313,7 +311,6 @@ function App() {
               {row.map((key) => {
                 return (
                   <button
-                    style={getKeyAnimationStyles({ mode, key })}
                     data-letter={key.letter}
                     data-status={key.status}
                     className={`Keys__row__key ${key.status}`}
