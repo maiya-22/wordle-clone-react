@@ -30,6 +30,28 @@ let Guess = (params = {}) => {
 };
 
 function App() {
+  // 7 columns and 5 rows nested array. Each row has an empty guess
+  let [board, setBoard] = useState(
+    [1, 2, 3, 4, 5, 6, 7].map((row) => {
+      return [1, 2, 3, 4, 5].map((square) => {
+        let emptyGuess = Guess({ letter: null, status: "none" });
+        return emptyGuess;
+      });
+    })
+  );
+
+  // keyboard rows, each with a 'guess' object, with keyboard letter
+  let [keyboard, setKeyboard] = useState(
+    [
+      "q w e r t y u i o p".split(" "),
+      "a s d f g h j k l".split(" "),
+      "enter z x c v b n m delete".split(" "),
+    ].map((row) => {
+      return row.map((key) => {
+        return Guess({ letter: key, status: "none" });
+      });
+    })
+  );
   let [state, setState] = useState({
     rowNumber: 0,
     columnNumber: 0,
@@ -39,9 +61,6 @@ function App() {
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
   let [message, setMessage] = useState("");
-  useEffect(() => {
-    console.log("the word is", `"${word}"`);
-  }, [word]);
 
   // console.log(process.env);
 
@@ -68,29 +87,6 @@ function App() {
     //   })
     //   .catch(console.error);
   }, []);
-
-  // 7 columns and 5 rows nested array. Each row has an empty guess
-  let [board, setBoard] = useState(
-    [1, 2, 3, 4, 5, 6, 7].map((row) => {
-      return [1, 2, 3, 4, 5].map((column) => {
-        let emptyGuess = Guess({ letter: null, status: "none" });
-        return emptyGuess;
-      });
-    })
-  );
-
-  // keyboard rows, each with a 'guess' object, with keyboard letter
-  let [keyboard, setKeyboard] = useState(
-    [
-      "q w e r t y u i o p".split(" "),
-      "a s d f g h j k l".split(" "),
-      "enter z x c y b n m delete".split(" "),
-    ].map((row) => {
-      return row.map((letter) => {
-        return Guess({ letter, status: "none" });
-      });
-    })
-  );
 
   const placeLetterGuess = (params) => {
     // just places the guess in the square. Doesn't evaluate it.
