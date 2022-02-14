@@ -31,6 +31,16 @@ words.forEach((word) => {
   wordsHash[word] = true;
 });
 
+let range = words.filter((word) => {
+  return (
+    word[word.length - 1] === "r" &&
+    word[word.length - 2] === "o" &&
+    word.includes("e")
+  );
+});
+
+console.log("range", range);
+
 const getRandomWord = () => {
   let randomIndex = Math.floor(Math.random() * words.length);
   return words[randomIndex];

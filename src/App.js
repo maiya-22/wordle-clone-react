@@ -14,7 +14,7 @@ import {
   getWordFromRow,
   isRowComplete,
   isRowOver,
-  getErrorAnimationStyles,
+  getRowAnimationStyles,
   getAppearAnimationStyles,
   isGameOver,
 } from "./app-logic";
@@ -38,6 +38,9 @@ function App() {
 
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
+  let [message, setMessage] = useState(
+    "(cheating allowed while api is not yet setup) click to see word"
+  );
 
   useEffect(() => {
     fetchRandomWord()
@@ -180,18 +183,35 @@ function App() {
 
     if (!isRowComplete({ row: board[state.rowNumber] })) {
       setMode("word-error");
+      setMessage(
+        `"${getWordFromRow({
+          row: board[state.rowNumber],
+        })}"  is not yet a complete word`
+      );
       console.warn("to do: is complete?");
       return null;
     }
 
     if (!isInWordList({ row: board[state.rowNumber] })) {
       setMode("word-error");
+      setMessage(
+        `"${getWordFromRow({
+          row: board[state.rowNumber],
+        })}"  is not yet in the temp list of words`
+      );
       console.warn(
         `${getWordFromRow({
           row: board[state.rowNumber],
         })} is not in words list`
       );
       return null;
+    }
+
+    if (getWordFromRow({ row: board[state.rowNumber] }) === word) {
+      setTimeout(() => {
+        setMessage("you won!");
+        setMode("you-won");
+      }, 1000);
     }
 
     let nextBoard = [...board];
@@ -229,6 +249,7 @@ function App() {
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
     if (isGameOver({ state, board })) {
+      setMessage(`game over. word: ${word}`);
       console.warn("game over");
       return null;
     }
@@ -250,14 +271,23 @@ function App() {
   // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
   return (
     <div className="App">
-      <Header />
+      <Header>
+        <div
+          onClick={(e) => {
+            e.preventDefault();
+            setMessage(`The word is "${word}"`);
+          }}
+        >
+          {message}
+        </div>
+      </Header>
       <Board>
         {board.map((row, i) => {
           return (
             <div
               key={uuid()}
               className="Board__row"
-              style={getErrorAnimationStyles({ mode, state, i })}
+              style={getRowAnimationStyles({ mode, state, i })}
             >
               {row.map((guess, k) => {
                 return (

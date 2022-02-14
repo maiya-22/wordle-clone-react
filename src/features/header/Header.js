@@ -1,9 +1,10 @@
 import "./Header.scss";
 import { gitHubImg } from "../../data/urls";
-const Header = function () {
+const Header = function (props) {
   return (
     <header className="Header">
       <InProgress />
+      {props.children}
       <GitHubLink />
     </header>
   );

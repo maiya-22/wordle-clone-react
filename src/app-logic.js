@@ -85,8 +85,13 @@ const updateBoardRowStatuses = (params) => {
   });
 };
 
-const getErrorAnimationStyles = (params) => {
+const getRowAnimationStyles = (params) => {
   let { mode, state, i } = params; //i is the index of the row
+  if (mode === "you-won" && state.rowNumber - 1 === i) {
+    return {
+      animation: `tada 1s  0s forwards ease-in-out`,
+    };
+  }
   if (mode === "word-error" && state.rowNumber === i) {
     return {
       animation: `headShake 1s  0s forwards ease-in-out`,
@@ -139,7 +144,7 @@ export {
   isRowComplete,
   isInWordList,
   getWordFromRow,
-  getErrorAnimationStyles,
+  getRowAnimationStyles,
   getAppearAnimationStyles,
   isGameOver,
 };
