@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import { v4 as uuid } from "uuid";
-import { getRandomWord } from "./data";
+import { getRandomWord, fetchRandomWord } from "./data";
 import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
@@ -36,9 +36,28 @@ function App() {
   });
   // to get to a square:  board[rowNumber][columnNumber]
 
-  let [clickedKey, setClickedKey] = useState(null);
-  let [mode, setMode] = useState("idle");
-  let [word, setWord] = useState("");
+  let [mode, setMode] = useState("loading");
+  let [word, setWord] = useState("... loading word");
+
+  useEffect(() => {
+    fetchRandomWord()
+      .then((word) => {
+        setWord(word);
+        setMode("init-game");
+      })
+      .catch(console.error);
+    // setWord(getRandomWord());
+    // axios
+    //   .get(LAMBDA_URL, {
+    //     proxy: "http://localhost",
+    //     port: 9000,
+    //   })
+    //   .then((res) => {
+    //     console.log({ res });
+    //   })
+    //   .catch(console.error);
+  }, []);
+
   let [board, setBoard] = useState([
     [
       Guess({ letter: null, status: "none" }),
@@ -126,19 +145,6 @@ function App() {
     process.env.NODE_ENV === "development"
       ? "http://localhost:9000/.netlify/functions/dictionary"
       : "./netlify/functions/dictionary";
-
-  useEffect(() => {
-    setWord(getRandomWord());
-    // axios
-    //   .get(LAMBDA_URL, {
-    //     proxy: "http://localhost",
-    //     port: 9000,
-    //   })
-    //   .then((res) => {
-    //     console.log({ res });
-    //   })
-    //   .catch(console.error);
-  }, []);
 
   useEffect(() => {
     console.log("the word is", `"${word}"`);

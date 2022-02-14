@@ -10,7 +10,7 @@ const wordsHash = {};
 
 const filterWords = (words) => {
   return words
-    .filter((w) => w.length === 5 || w.length === 4)
+    .filter((w) => w.length === 5 || (w.length === 4 && w[3] != "s"))
     .map((word) => {
       return word.length === 5 ? word : `${word}s`; //and an s to words w/ 4 letters
     });
@@ -36,12 +36,13 @@ const getRandomWord = () => {
   return words[randomIndex];
 };
 
+// fake api request, until api linked
 const fetchRandomWord = async () => {
-  let res;
-  try {
-  } catch (error) {
-    console.error(error);
-  }
+  return new Promise((resolve, reject) => {
+    setTimeout(() => {
+      resolve(getRandomWord());
+    }, 2000);
+  });
 };
 
 export { fetchRandomWord, getRandomWord, words as default };

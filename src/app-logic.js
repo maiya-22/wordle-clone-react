@@ -97,6 +97,30 @@ const getErrorAnimationStyles = (params) => {
 
 const getAppearAnimationStyles = (params) => {
   let { mode, state, i, k } = params; //i is the index of the row. k is the index of the column
+
+  if (mode === "init-game") {
+    return {
+      opacity: 0,
+      animation: `fadeIn 1s  0.1s  forwards ease-out`,
+    };
+  }
+
+  // ... loading word
+  let delay;
+  if (mode === "loading") {
+    delay = i / k === "Infinity" ? 0.2 : i / k;
+    delay = delay === 0 ? 0.2 : delay;
+    if (k === 0) {
+      delay = (i / 1) * 1.5;
+    }
+    return {
+      backfaceVisibility: "visible !important",
+      opacity: 0,
+      animation: `loading 1s  ${delay}s infinite`,
+    };
+  }
+
+  // ... when the word is being guessed
   if (i === state.rowNumber - 1 && mode === "guessing") {
     return {
       backfaceVisibility: "visible !important",
@@ -104,6 +128,8 @@ const getAppearAnimationStyles = (params) => {
       animation: `flipInX 1s  ${k * 0.25}s forwards`,
     };
   }
+
+  // idle:
   return {};
 };
 
