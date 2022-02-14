@@ -1,4 +1,8 @@
 export default `
+ghoul
+mole
+lords
+stall
 pleat
 fried
 clown
