@@ -1,4 +1,5 @@
 export default `
+tries
 pears
 cared
 drill

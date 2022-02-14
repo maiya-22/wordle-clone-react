@@ -39,9 +39,7 @@ function App() {
 
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
-  let [message, setMessage] = useState(
-    "(cheating allowed while api is not yet setup)"
-  );
+  let [message, setMessage] = useState("");
 
   useEffect(() => {
     fetchRandomWord()
@@ -235,10 +233,8 @@ function App() {
     });
     if (!getWordFromRow({ row: board[state.rowNumber] }) != word) {
       if (isGameOver({ state, board })) {
-        setMessage(`game over. word: ${word}`); // show word
-        setTimeout(() => {
-          setMode("game-over");
-        }, 3000);
+        setMessage(`game over. word: ${word}`);
+        setMode("game-over");
       }
     }
   };
@@ -276,20 +272,16 @@ function App() {
   return (
     <div className="App">
       <Header>
-        <div>
-          {message}{" "}
-          {mode != "you-won" && mode != "game-over" && (
-            <button
-              className="Header__temp-dev-button"
-              onClick={(e) => {
-                e.preventDefault();
-                e.target.innerHTML = `The word is "${word}"`;
-              }}
-            >
-              click to see word
-            </button>
-          )}
-        </div>
+        <span>{message}</span>
+        <button
+          className="Header__temp-dev-button"
+          onClick={(e) => {
+            e.preventDefault();
+            e.target.innerHTML = `The word is "${word}"`;
+          }}
+        >
+          click to see word
+        </button>
       </Header>
       <Board>
         {board.map((row, i) => {

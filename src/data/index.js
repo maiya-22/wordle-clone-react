@@ -29,6 +29,7 @@ const filterWords = (words) => {
         laids: true,
         gones: true,
         huges: true,
+        datas: true,
       };
       return !hash[w];
     });

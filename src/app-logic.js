@@ -88,7 +88,7 @@ const updateBoardRowStatuses = (params) => {
 
 const getKeyAnimationStyles = (params) => {
   let { mode, key } = params;
-  if (mode != "guessing") {
+  if (mode != "guessing" || mode != "game-over") {
     return {};
   }
   switch (key.status) {
@@ -151,7 +151,10 @@ const getSquareAnimationStyles = (params) => {
   }
 
   // ... when the word is being guessed
-  if (i === state.rowNumber - 1 && mode === "guessing") {
+  if (
+    i === state.rowNumber - 1 &&
+    (mode === "guessing" || mode === "game-over")
+  ) {
     return {
       backfaceVisibility: "visible !important",
       opacity: 0,
