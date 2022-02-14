@@ -101,10 +101,9 @@ const getAppearAnimationStyles = (params) => {
   if (mode === "init-game") {
     return {
       opacity: 0,
-      animation: `fadeIn 1s  0.1s  forwards ease-out`,
+      animation: `fadeIn 3s  0.1s  forwards ease-out`,
     };
   }
-
   // ... loading word
   let delay;
   if (mode === "loading") {
@@ -115,7 +114,7 @@ const getAppearAnimationStyles = (params) => {
     }
     return {
       backfaceVisibility: "visible !important",
-      opacity: 0,
+      opacity: 0.25,
       animation: `loading 1s  ${delay}s infinite`,
     };
   }

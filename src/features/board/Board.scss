@@ -48,7 +48,7 @@
 
 @keyframes fadeIn {
   from {
-    opacity: 0;
+    opacity: 0.25;
   }
 
   to {
@@ -114,27 +114,24 @@
 
 @keyframes loading {
   from {
-    transform: perspective(400px) rotate3d(1, 0, 0, 90deg);
     animation-timing-function: ease-in;
-    opacity: 0;
+    opacity: 0.25;
   }
 
   40% {
-    transform: perspective(400px) rotate3d(1, 0, 0, -20deg);
+    opacity: 1;
     animation-timing-function: ease-in;
   }
 
   60% {
-    transform: perspective(400px) rotate3d(1, 0, 0, 10deg);
-    opacity: 0.5;
+    opacity: 0.25;
   }
 
   80% {
-    transform: perspective(400px) rotate3d(1, 0, 0, -5deg);
+    opacity: 0.5;
   }
 
   to {
-    transform: perspective(400px);
-    opacity: 0.5; // edited
+    opacity: 0.25;
   }
 }
