@@ -17,7 +17,17 @@ const filterWords = (words) => {
       word = word.toLowerCase();
       return word.length === 5 ? word : `${word}s`; //and an s to words w/ 4 letters
     })
-    .filter((w) => !["useds", "bushs", "darks", "nices"].includes(w)); // temp fix. filter out words that don't make sense w/ the s, etc
+    .filter((w) => {
+      // temp fix. filter out words that don't make sense w/ the s, etc
+      let hash = {
+        used: true,
+        bushs: true,
+        darks: true,
+        nices: true,
+        ontos: true,
+      };
+      !hash[w];
+    });
 };
 
 const transformTemplateStringIntoArray = (string) => {
