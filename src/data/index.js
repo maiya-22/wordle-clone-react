@@ -33,6 +33,7 @@ const filterWords = (words) => {
         thans: true,
         bents: true,
         wifes: true,
+        torns: true,
       };
       return !hash[w];
     });

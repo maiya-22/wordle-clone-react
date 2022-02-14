@@ -1,4 +1,12 @@
 export default `
+reaps
+ploys
+charm
+birch
+leeks
+query
+chink
+quart
 wives
 chore
 guild

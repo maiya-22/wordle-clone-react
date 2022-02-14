@@ -58,7 +58,9 @@ function App() {
   // to get to a square:  board[rowNumber][columnNumber]
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
-  let [message, setMessage] = useState("");
+  let [message, setMessage] = useState(
+    "Type a word with the keyboard. Press 'enter' to guess."
+  );
 
   useEffect(() => {
     fetchRandomWord()
