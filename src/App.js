@@ -39,7 +39,7 @@ function App() {
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
   let [message, setMessage] = useState(
-    "(cheating allowed while api is not yet setup) click to see word"
+    "(cheating allowed while api is not yet setup)"
   );
 
   useEffect(() => {
@@ -262,8 +262,8 @@ function App() {
       if (mode != "idle") setMode("idle");
       deleteLetter();
     } else {
+      console.log("mode:", mode);
       if (mode != "idle") setMode("idle");
-
       placeLetterGuess({ letter });
     }
   };
@@ -272,13 +272,22 @@ function App() {
   return (
     <div className="App">
       <Header>
-        <div
-          onClick={(e) => {
-            e.preventDefault();
-            setMessage(`The word is "${word}"`);
-          }}
-        >
+        <div>
           {message}
+          <button
+            style={{
+              margin: ".5vw",
+              padding: ".5vw",
+              border: "solid lightgray 1px",
+              borderRadius: "0.2rem",
+            }}
+            onClick={(e) => {
+              e.preventDefault();
+              e.target.innerHTML = `The word is "${word}"`;
+            }}
+          >
+            click to see word:
+          </button>
         </div>
       </Header>
       <Board>
