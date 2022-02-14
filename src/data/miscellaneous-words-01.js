@@ -1,4 +1,10 @@
 export default `
+glint
+nicer
+crabs
+glare
+glide
+dork
 ghoul
 mole
 lords
