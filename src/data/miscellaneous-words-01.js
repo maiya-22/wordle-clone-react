@@ -1,4 +1,8 @@
 export default `
+wives
+chore
+guild
+crane
 tries
 pears
 cared

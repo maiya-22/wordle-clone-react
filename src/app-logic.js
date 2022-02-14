@@ -140,8 +140,12 @@ const getSquareAnimationStyles = (params) => {
   if (mode === "loading") {
     delay = i / k === "Infinity" ? 0.2 : i / k;
     delay = delay === 0 ? 0.2 : delay;
+
     if (k === 0) {
       delay = (i / 1) * 1.5;
+    }
+    if (i >= 3) {
+      delay = (k / i) * 0.25;
     }
     return {
       backfaceVisibility: "visible !important",
