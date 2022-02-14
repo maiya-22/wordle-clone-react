@@ -6,7 +6,7 @@ import words from "./data";
 
 const isGameOver = (params) => {
   let { board, state } = params;
-  return state.rowNumber >= board.length;
+  return state.rowNumber + 1 === board.length;
 };
 
 const getWordFromRow = (params) => {
@@ -125,7 +125,7 @@ const getSquareAnimationStyles = (params) => {
 
   if (mode === "you-won" && state.rowNumber - 1 === i) {
     return {
-      animation: `tada 1s  ${k / 10}s forwards ease-in-out`,
+      animation: `tada 1s  ${k / 20}s forwards ease-in-out`,
     };
   }
 

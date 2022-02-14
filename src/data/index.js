@@ -25,8 +25,11 @@ const filterWords = (words) => {
         darks: true,
         nices: true,
         ontos: true,
+        vasts: true,
+        laids: true,
+        gones: true,
       };
-      !hash[w];
+      return !hash[w];
     });
 };
 

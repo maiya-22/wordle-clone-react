@@ -193,6 +193,13 @@ function App() {
       return null;
     }
 
+    if (getWordFromRow({ row: board[state.rowNumber] }) === word) {
+      setTimeout(() => {
+        setMessage("you won!");
+        setMode("you-won");
+      }, 1000);
+    }
+
     if (!isInWordList({ row: board[state.rowNumber] })) {
       setMode("word-error");
       setMessage(
@@ -206,13 +213,6 @@ function App() {
         })} is not in words list`
       );
       return null;
-    }
-
-    if (getWordFromRow({ row: board[state.rowNumber] }) === word) {
-      setTimeout(() => {
-        setMessage("you won!");
-        setMode("you-won");
-      }, 1000);
     }
 
     let nextBoard = [...board];
@@ -233,6 +233,14 @@ function App() {
       rowNumber: state.rowNumber + 1,
       columnNumber: 0,
     });
+    if (!getWordFromRow({ row: board[state.rowNumber] }) != word) {
+      if (isGameOver({ state, board })) {
+        setTimeout(() => {
+          setMessage(`game over. word: ${word}`); // show word
+          setMode("game-over");
+        }, 1000);
+      }
+    }
   };
 
   const deleteLetter = () => {
@@ -249,15 +257,10 @@ function App() {
 
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
-    if (mode === "you-won") return null; // no more plays
-    if (isGameOver({ state, board })) {
-      setMessage(`game over. word: ${word}`); // show word
-      return null;
-    }
+    if (mode === "you-won" || mode === "game-over") return null; // no more plays
     let { dataset } = e.target;
     let { letter } = dataset;
     if (letter === "enter") {
-      console.log("clicked enter");
       setMode("guessing");
       guessWord();
     } else if (letter === "delete") {
@@ -275,7 +278,7 @@ function App() {
       <Header>
         <div>
           {message}{" "}
-          {mode != "you-won" && (
+          {mode != "you-won" && mode != "game-over" && (
             <button
               className="Header__temp-dev-button"
               onClick={(e) => {

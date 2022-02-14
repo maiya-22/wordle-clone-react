@@ -1,4 +1,16 @@
 export default `
+pears
+cared
+drill
+scare
+brats
+plays
+hound
+plows
+drown
+purse
+goat
+spade
 ladies
 waspy
 thumb
