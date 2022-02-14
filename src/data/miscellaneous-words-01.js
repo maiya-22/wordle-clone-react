@@ -1,4 +1,7 @@
 export default `
+ladies
+waspy
+thumb
 hedge
 glint
 nicer

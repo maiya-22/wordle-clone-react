@@ -10,7 +10,9 @@ const wordsHash = {};
 
 const filterWords = (words) => {
   return words
-    .filter((w) => w.length === 5 || (w.length === 4 && w[3] != "s"))
+    .filter(
+      (w) => w.length === 5 || (w.length === 4 && w[3] != "s" && w[3] != "y")
+    )
     .map((word) => {
       word = word.toLowerCase();
       return word.length === 5 ? word : `${word}s`; //and an s to words w/ 4 letters

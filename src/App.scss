@@ -47,8 +47,9 @@ header {
   font-size: 0.95vw;
   color: gray;
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   padding: 2vw;
+  min-height: 7vw;
 }
 
 .Header__temp-dev-button {
@@ -56,6 +57,17 @@ header {
   padding: 0.5vw;
   border: solid lightgray 1px;
   border-radius: 0.2rem;
+}
+
+.Header__git-link {
+  position: fixed;
+  top: 1vw;
+  left: 2vw;
+  transition: all 1s ease-out;
+}
+
+.Header__git-link:hover {
+  transform: scale(1.1);
 }
 
 footer {
