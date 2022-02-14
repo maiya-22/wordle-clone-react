@@ -30,7 +30,7 @@ let Guess = (params = {}) => {
 function App() {
   // 7 columns and 5 rows nested array. Each row has an empty guess
   let [board, setBoard] = useState(
-    [1, 2, 3, 4, 5, 6, 7].map((row) => {
+    [1, 2, 3, 4, 5, 6].map((row) => {
       return [1, 2, 3, 4, 5].map((square) => {
         let emptyGuess = Guess({ letter: null, status: "none" });
         return emptyGuess;
@@ -118,19 +118,16 @@ function App() {
       );
       return null;
     }
-
     let nextBoard = [...board];
     let updatedRow = updateBoardRowStatuses({
       word,
       row: board[state.rowNumber],
     });
     nextBoard[state.rowNumber] = updatedRow;
-
     let nextKeyboard = updateKeyboardGuessStatuses({
       keyboard,
       row: updatedRow,
     });
-
     setBoard(nextBoard);
     setKeyboard(nextKeyboard);
     setState({
