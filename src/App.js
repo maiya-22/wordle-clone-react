@@ -72,18 +72,15 @@ function App() {
   const placeLetterGuess = (params) => {
     // just places the guess in the square. Doesn't evaluate it.
     // and increments to the next position, for the next guess
-    //  to do: error check, if round is over when try to guess a letter
     let { letter } = params;
     let { rowNumber, columnNumber } = state;
     let nextBoard = [...board];
-
     if (isRowOver({ state, board })) {
       return null;
     }
     // put the pending guess in the square:
     nextBoard[rowNumber][columnNumber] = Guess({ letter, status: "pending" });
     // update board, with new guess
-
     setBoard(nextBoard);
     // move to the next position/ie letter to guess
     setState({
@@ -96,7 +93,6 @@ function App() {
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
-
     if (!isRowComplete({ row: board[state.rowNumber] })) {
       setMode("word-error");
       setMessage(
@@ -107,25 +103,18 @@ function App() {
       console.warn("to do: is complete?");
       return null;
     }
-
     if (getWordFromRow({ row: board[state.rowNumber] }) === word) {
       setTimeout(() => {
         setMessage("you won!");
         setMode("you-won");
       }, 1000);
     }
-
     if (!isInWordList({ row: board[state.rowNumber] })) {
       setMode("word-error");
       setMessage(
         `"${getWordFromRow({
           row: board[state.rowNumber],
         })}"  is not yet in the temp list of words`
-      );
-      console.warn(
-        `${getWordFromRow({
-          row: board[state.rowNumber],
-        })} is not in words list`
       );
       return null;
     }
