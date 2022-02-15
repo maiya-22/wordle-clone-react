@@ -1,4 +1,11 @@
 export default `
+leak
+shady
+sandy
+choir
+grate
+boil
+taker
 igloo
 tread
 solds
