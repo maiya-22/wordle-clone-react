@@ -1,9 +1,9 @@
 import "./Instructions.scss";
 
 function Instructions(props) {
-  let { doShow } = props;
+  let { showInstructions } = props;
   return (
-    <div className={`Instructions ${doShow ? "show" : ""}`}>
+    <div className={`Instructions ${showInstructions ? "show" : ""}`}>
       <h4>instructions</h4>
       <ul>
         <li>type a word by clicking the keyboard</li>

@@ -188,7 +188,6 @@ function App() {
           className="Header__temp-dev-button"
           onClick={(e) => {
             setFreeze(true);
-
             setShowInstrutions(!showInstructions);
           }}
         >
@@ -254,34 +253,7 @@ function App() {
           );
         })}
       </Keys>
-      <div
-        className={`Instructions ${showInstructions ? "show" : ""}`}
-        onTransitionEnd={(e) => {
-          if (!showInstructions && mode == "you-won") {
-            // do nothing
-          } else {
-            // setFreeze(false);
-          }
-        }}
-      >
-        <h4>instructions</h4>
-        <ul>
-          <li>type a word by clicking the keyboard</li>
-          <li>click 'enter' to guess your word</li>
-          <li className="exact">
-            dark green letters are letters that are in the correct position
-          </li>
-          <li className="almost">
-            blue letters are letters that are in the word, but not in the
-            correct position
-          </li>
-          <li className="no-match">grey letters are not in the word</li>
-          <li>
-            The api is in progress, so a lot of words are missing. So, you can
-            cheat and click the button to see what the word is.
-          </li>
-        </ul>
-      </div>
+      <Instructions showInstructions={showInstructions} />
       <footer></footer>
     </div>
   );
