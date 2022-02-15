@@ -46,30 +46,25 @@ header {
   grid-area: header;
   font-size: 0.95vw;
   color: gray;
-  display: flex;
-  justify-content: space-between;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
   padding: 2vw;
   min-height: 7vw;
 }
 
 .Header__temp-dev-button {
+  grid-column: 4/5;
   margin: 0.5vw;
   padding: 0.5vw;
   height: 2.5vw;
-  flex-basis: 1;
+  width: 16vw;
   border: solid lightgray 1px;
   border-radius: 0.2rem;
 }
 
-.Header__git-link {
-  // position: fixed;
-  // top: 1vw;
-  // left: 2vw;
-  transition: all 1s ease-out;
-}
-
-.Header__git-link:hover {
-  transform: scale(1.1);
+.Header__message {
+  grid-column: 2/4;
+  text-align: center;
 }
 
 footer {

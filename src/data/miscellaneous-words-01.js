@@ -1,4 +1,5 @@
 export default `
+trite
 reaps
 ploys
 charm

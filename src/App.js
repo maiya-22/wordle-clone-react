@@ -177,7 +177,7 @@ function App() {
   return (
     <div className="App">
       <Header>
-        <span>{message}</span>
+        <span className="Header__message">{message}</span>
         <button
           className="Header__temp-dev-button"
           onClick={(e) => {
