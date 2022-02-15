@@ -170,6 +170,23 @@ const getSquareAnimationStyles = (params) => {
   return {};
 };
 
+// will only get keys that exist in the game
+const getKeyPressed = (e) => {
+  let eventCode = e.code;
+  let keyCategory = eventCode.slice(0, 3);
+  if (keyCategory === "Key") {
+    return eventCode.slice(3).toLowerCase();
+  } else if (eventCode === "Enter" || eventCode === "Backspace") {
+    return eventCode.toLowerCase();
+  } else {
+    return null;
+  }
+};
+
+const doesKeyExist = (e) => {
+  return !!getKeyPressed(e);
+};
+
 export {
   isRowOver,
   updateKeyboardGuessStatuses,
@@ -181,4 +198,6 @@ export {
   getSquareAnimationStyles,
   getKeyAnimationStyles,
   isGameOver,
+  getKeyPressed,
+  doesKeyExist,
 };

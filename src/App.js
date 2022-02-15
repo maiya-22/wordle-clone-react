@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { v4 as uuid } from "uuid";
 import { fetchRandomWord } from "./data";
 import "./App.scss";
@@ -17,6 +17,8 @@ import {
   getRowAnimationStyles,
   getSquareAnimationStyles,
   isGameOver,
+  getKeyPressed,
+  doesKeyExist,
 } from "./app-logic";
 
 // the guess.status is used as a className, to color the squares and keys
@@ -44,7 +46,7 @@ function App() {
     [
       "q w e r t y u i o p".split(" "),
       "a s d f g h j k l".split(" "),
-      "enter z x c v b n m delete".split(" "),
+      "enter z x c v b n m backspace".split(" "),
     ].map((row) => {
       return row.map((key, i) => {
         // at [row][i] you have the guess obj of that key
@@ -162,12 +164,11 @@ function App() {
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
     if (mode === "you-won" || mode === "game-over") return null; // no more plays
-    let { dataset } = e.target;
-    let { letter } = dataset;
+    let { letter } = e.target.dataset;
     if (letter === "enter") {
       setMode("guessing");
       guessWord();
-    } else if (letter === "delete") {
+    } else if (letter === "backspace") {
       if (mode != "idle") setMode("idle");
       deleteLetter();
     } else {
@@ -176,19 +177,46 @@ function App() {
     }
   };
 
+  const handleKeyPress = (e) => {
+    // console.log("keypress");
+    // e.preventDefault();
+    let letter = getKeyPressed(e);
+    if (!doesKeyExist(e)) return null;
+    handleKeyClick({ target: { dataset: { letter } } });
+    // let letter = getKeyPressed(e);
+    // if (letter === "enter") {
+    //   setMode("guessing");
+    //   guessWord();
+    // } else if (letter === "backspace") {
+    //   if (mode != "idle") setMode("idle");
+    //   deleteLetter();
+    // } else {
+    //   if (mode != "idle") setMode("idle");
+    //   placeLetterGuess({ letter });
+    // }
+  };
+
+  let appRef = useRef(null);
+
+  useEffect(() => {
+    appRef.current.addEventListener("keydown", handleKeyPress);
+    return () => {
+      appRef.current.removeEventListener("keydown", handleKeyPress);
+    };
+  }, []);
+
   // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
   return (
-    <div className="App">
+    <div className="App" ref={appRef}>
       <Header>
         <span className="Header__message">{message}</span>
         <button
           className="Header__temp-dev-button"
           onClick={(e) => {
             e.preventDefault();
-            setShowInstrutions(!showInstructions);
           }}
         >
-          instructions
+          {showInstructions ? "hide instructions" : "instructions"}
         </button>
         <button
           className="Header__temp-dev-button"
@@ -244,7 +272,7 @@ function App() {
           );
         })}
       </Keys>
-      {showInstructions && <Instructions />}
+      <Instructions doShow={showInstructions} />
       <footer></footer>
     </div>
   );

@@ -1,4 +1,5 @@
 export default `
+solds
 glean
 gleam
 handy
