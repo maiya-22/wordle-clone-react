@@ -34,7 +34,7 @@ body {
     grid-template-rows: 1fr auto 1fr auto 4fr 1fr;
     grid-template-areas:
       "header header header"
-      ". board ."
+      ". board instructions"
       " . . ."
       ". keys ."
       ". . ."
@@ -65,6 +65,11 @@ header {
 .Header__message {
   grid-column: 2/4;
   text-align: center;
+}
+
+.Instructions {
+  grid-area: instructions;
+  padding: 2vw;
 }
 
 footer {

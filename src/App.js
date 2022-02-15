@@ -5,6 +5,7 @@ import "./App.scss";
 import Board from "./features/board/Board";
 import Keys from "./features/keys/Keys";
 import Header from "./features/header/Header";
+import Instructions from "./features/instructions/Instructions";
 
 import {
   updateKeyboardGuessStatuses,
@@ -30,10 +31,10 @@ let Guess = (params = {}) => {
 function App() {
   // 7 columns and 5 rows nested array. Each row has an empty guess
   let [board, setBoard] = useState(
-    [1, 2, 3, 4, 5, 6].map((row) => {
-      return [1, 2, 3, 4, 5].map((square) => {
-        let emptyGuess = Guess({ letter: null, status: "none" });
-        return emptyGuess;
+    [0, 1, 2, 3, 4, 5].map((y) => {
+      return [0, 1, 2, 3, 4].map((x) => {
+        // at [ x, y ], you have the emtpy guess:
+        return Guess({ letter: null, status: "none" });
       });
     })
   );
@@ -45,7 +46,8 @@ function App() {
       "a s d f g h j k l".split(" "),
       "enter z x c v b n m delete".split(" "),
     ].map((row) => {
-      return row.map((key) => {
+      return row.map((key, i) => {
+        // at [row][i] you have the guess obj of that key
         return Guess({ letter: key, status: "none" });
       });
     })
@@ -58,6 +60,7 @@ function App() {
   // to get to a square:  board[rowNumber][columnNumber]
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
+  let [showInstructions, setShowInstrutions] = useState(false);
   let [message, setMessage] = useState(
     "Type a word with the keyboard. Press 'enter' to guess."
   );
@@ -182,6 +185,15 @@ function App() {
           className="Header__temp-dev-button"
           onClick={(e) => {
             e.preventDefault();
+            setShowInstrutions(!showInstructions);
+          }}
+        >
+          instructions
+        </button>
+        <button
+          className="Header__temp-dev-button"
+          onClick={(e) => {
+            e.preventDefault();
             e.target.innerHTML = `The word is "${word}"`;
           }}
         >
@@ -232,6 +244,7 @@ function App() {
           );
         })}
       </Keys>
+      {showInstructions && <Instructions />}
       <footer></footer>
     </div>
   );

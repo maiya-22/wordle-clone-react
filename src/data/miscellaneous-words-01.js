@@ -1,4 +1,9 @@
 export default `
+glean
+gleam
+handy
+grits
+grime
 trite
 reaps
 ploys
