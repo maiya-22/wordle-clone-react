@@ -87,7 +87,8 @@ const updateBoardRowStatuses = (params) => {
 };
 
 const getKeyAnimationStyles = (params) => {
-  let { mode, key } = params;
+  let { mode, freeze, key } = params;
+  if (freeze) return {};
   if (mode != "guessing" || mode != "game-over") {
     return {};
   }
@@ -110,8 +111,8 @@ const getKeyAnimationStyles = (params) => {
 };
 
 const getRowAnimationStyles = (params) => {
-  let { mode, state, i } = params; //i is the index of the row
-
+  let { mode, state, freeze, i } = params; //i is the index of the row
+  if (freeze) return {};
   if (mode === "word-error" && state.rowNumber === i) {
     return {
       animation: `headShake 1s  0s forwards ease-in-out`,
@@ -121,7 +122,9 @@ const getRowAnimationStyles = (params) => {
 };
 
 const getSquareAnimationStyles = (params) => {
-  let { mode, state, i, k } = params; //i is the index of the row. k is the index of the column
+  let { mode, freeze, state, i, k } = params; //i is the index of the row. k is the index of the column
+
+  if (freeze) return {};
 
   if (mode === "you-won" && state.rowNumber - 1 === i) {
     return {

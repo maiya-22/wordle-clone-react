@@ -60,6 +60,7 @@ function App() {
   });
 
   // to get to a square:  board[rowNumber][columnNumber]
+  let [freeze, setFreeze] = useState(null);
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
   let [showInstructions, setShowInstrutions] = useState(false);
@@ -164,6 +165,7 @@ function App() {
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
     if (mode === "you-won" || mode === "game-over") return null; // no more plays
+    if (freeze) setFreeze(false);
     let { letter } = e.target.dataset;
     if (letter === "enter") {
       setMode("guessing");
@@ -213,7 +215,8 @@ function App() {
         <button
           className="Header__temp-dev-button"
           onClick={(e) => {
-            e.preventDefault();
+            setFreeze(true);
+
             setShowInstrutions(!showInstructions);
           }}
         >
@@ -235,12 +238,18 @@ function App() {
             <div
               key={uuid()}
               className="Board__row"
-              style={getRowAnimationStyles({ mode, state, i })}
+              style={getRowAnimationStyles({ mode, freeze, state, i })}
             >
               {row.map((guess, k) => {
                 return (
                   <button
-                    style={getSquareAnimationStyles({ mode, state, i, k })}
+                    style={getSquareAnimationStyles({
+                      mode,
+                      freeze,
+                      state,
+                      i,
+                      k,
+                    })}
                     className={`Square ${guess.status}`}
                     key={uuid()}
                   >
@@ -273,7 +282,34 @@ function App() {
           );
         })}
       </Keys>
-      <Instructions doShow={showInstructions} />
+      <div
+        className={`Instructions ${showInstructions ? "show" : ""}`}
+        onTransitionEnd={(e) => {
+          if (!showInstructions && mode == "you-won") {
+            // do nothing
+          } else {
+            // setFreeze(false);
+          }
+        }}
+      >
+        <h4>instructions</h4>
+        <ul>
+          <li>type a word by clicking the keyboard</li>
+          <li>click 'enter' to guess your word</li>
+          <li className="exact">
+            dark green letters are letters that are in the correct position
+          </li>
+          <li className="almost">
+            blue letters are letters that are in the word, but not in the
+            correct position
+          </li>
+          <li className="no-match">grey letters are not in the word</li>
+          <li>
+            The api is in progress, so a lot of words are missing. So, you can
+            cheat and click the button to see what the word is.
+          </li>
+        </ul>
+      </div>
       <footer></footer>
     </div>
   );
