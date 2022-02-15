@@ -214,6 +214,7 @@ function App() {
           className="Header__temp-dev-button"
           onClick={(e) => {
             e.preventDefault();
+            setShowInstrutions(!showInstructions);
           }}
         >
           {showInstructions ? "hide instructions" : "instructions"}
