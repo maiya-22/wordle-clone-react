@@ -1,4 +1,6 @@
 export default `
+igloo
+tread
 solds
 glean
 gleam

@@ -179,37 +179,9 @@ function App() {
     }
   };
 
-  const handleKeyPress = (e) => {
-    // console.log("keypress");
-    // e.preventDefault();
-    let letter = getKeyPressed(e);
-    if (!doesKeyExist(e)) return null;
-    handleKeyClick({ target: { dataset: { letter } } });
-    // let letter = getKeyPressed(e);
-    // if (letter === "enter") {
-    //   setMode("guessing");
-    //   guessWord();
-    // } else if (letter === "backspace") {
-    //   if (mode != "idle") setMode("idle");
-    //   deleteLetter();
-    // } else {
-    //   if (mode != "idle") setMode("idle");
-    //   placeLetterGuess({ letter });
-    // }
-  };
-
-  let appRef = useRef(null);
-
-  useEffect(() => {
-    appRef.current.addEventListener("keydown", handleKeyPress);
-    return () => {
-      appRef.current.removeEventListener("keydown", handleKeyPress);
-    };
-  }, []);
-
   // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
   return (
-    <div className="App" ref={appRef}>
+    <div className="App">
       <Header>
         <span className="Header__message">{message}</span>
         <button
