@@ -19,18 +19,15 @@ const getWordFromRow = (params) => {
 
 const share = (params) => {
   let { board } = params;
-
   let status = {
     exact: "🟩",
     almost: "🟦",
     "no-match": "⬜",
-    none: "",
   };
-
   let graph = board
     .filter((row) => {
       return row.reduce((isEmpty, guess) => {
-        return isEmpty && guess.status != "none";
+        return isEmpty && !!status[guess.status];
       }, true);
     })
     .map((row) => {
@@ -43,7 +40,6 @@ const share = (params) => {
       );
     })
     .join("");
-
   navigator.clipboard.writeText(graph);
   console.log(graph);
 };

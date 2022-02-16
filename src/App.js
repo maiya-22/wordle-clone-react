@@ -68,10 +68,6 @@ function App() {
   );
 
   useEffect(() => {
-    console.log("mode", mode);
-  }, [mode]);
-
-  useEffect(() => {
     fetchRandomWord()
       .then((word) => {
         setWord(word);
@@ -101,7 +97,6 @@ function App() {
   };
 
   const guessWord = () => {
-    console.log("mode:", mode);
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
