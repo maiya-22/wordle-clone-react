@@ -38,6 +38,8 @@ const filterWords = (words) => {
         inchs: true,
         lives: true,
         mosts: true,
+        rares: true,
+        drews: true,
       };
       return !hash[w];
     });

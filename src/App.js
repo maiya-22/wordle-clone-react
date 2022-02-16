@@ -109,7 +109,6 @@ function App() {
           row: board[state.rowNumber],
         })}"  is not yet a complete word`
       );
-      console.warn("to do: is complete?");
       return null;
     }
     if (getWordFromRow({ row: board[state.rowNumber] }) === word) {

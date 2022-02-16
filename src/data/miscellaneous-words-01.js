@@ -1,4 +1,17 @@
 export default `
+lived
+chops
+chant
+jumpy
+rakes
+blink
+realm
+shody
+clutz
+chalk
+beams
+stack
+blown
 molds
 crest
 blast
