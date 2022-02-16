@@ -1,4 +1,4 @@
-import words from "./data";
+import { fetchDoesWordExist } from "./data";
 
 // make a hash out of the letters played in the last round, to easily get their status
 // eg { "s": { letter: "s", status: "exact"}} for letters in round
@@ -47,7 +47,7 @@ const share = (params) => {
 const isInWordList = (params) => {
   let { row } = params;
   let word = getWordFromRow({ row });
-  return words.includes(word);
+  return fetchDoesWordExist(word);
 };
 
 const getLettersInRowHash = (params) => {

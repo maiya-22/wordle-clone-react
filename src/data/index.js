@@ -36,6 +36,7 @@ const filterWords = (words) => {
         torns: true,
         weaks: true,
         inchs: true,
+        lives: true,
       };
       return !hash[w];
     });
@@ -70,7 +71,17 @@ const fetchRandomWord = async () => {
   });
 };
 
-export { fetchRandomWord, getRandomWord, words as default };
+const doesWordExist = (word) => {
+  return words.includes(word);
+};
+
+const fetchDoesWordExist = (word) => {
+  return new Promise((resolve, reject) => {
+    resolve(doesWordExist(word));
+  });
+};
+
+export { fetchRandomWord, doesWordExist, fetchDoesWordExist, words as default };
 // console.log(process.env);
 // const LAMBDA_URL =
 //   process.env.NODE_ENV === "development"

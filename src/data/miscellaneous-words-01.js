@@ -1,4 +1,7 @@
 export default `
+crest
+blast
+lives
 Strap
 Bless
 Swats

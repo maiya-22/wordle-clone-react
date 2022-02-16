@@ -96,7 +96,7 @@ function App() {
     });
   };
 
-  const guessWord = () => {
+  const guessWord = async () => {
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
@@ -116,7 +116,14 @@ function App() {
         setMode("you-won");
       }, 1000);
     }
-    if (!isInWordList({ row: board[state.rowNumber] })) {
+
+    let wordDoesExist;
+    try {
+      wordDoesExist = await isInWordList({ row: board[state.rowNumber] });
+    } catch (error) {
+      console.error(error);
+    }
+    if (!wordDoesExist) {
       setMode("word-error");
       setMessage(
         `"${getWordFromRow({
