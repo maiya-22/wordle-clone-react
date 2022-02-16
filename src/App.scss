@@ -52,6 +52,15 @@ header {
   min-height: 7vw;
 }
 
+.Header__dev-button {
+  margin: 0.5vw;
+  padding: 0.5vw;
+  height: 2.5vw;
+  width: 16vw;
+  border: solid lightgray 1px;
+  border-radius: 0.2rem;
+}
+
 .Header__temp-dev-button {
   grid-column: 4/5;
   margin: 0.5vw;

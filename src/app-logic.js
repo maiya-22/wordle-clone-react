@@ -1,4 +1,3 @@
-import { keyboard } from "@testing-library/user-event/dist/keyboard";
 import words from "./data";
 
 // make a hash out of the letters played in the last round, to easily get their status
@@ -16,6 +15,37 @@ const getWordFromRow = (params) => {
       return guess.letter;
     })
     .join("");
+};
+
+const share = (params) => {
+  let { board } = params;
+
+  let status = {
+    exact: "🟩",
+    almost: "🟦",
+    "no-match": "⬜",
+    none: "",
+  };
+
+  let graph = board
+    .filter((row) => {
+      return row.reduce((isEmpty, guess) => {
+        return isEmpty && guess.status != "none";
+      }, true);
+    })
+    .map((row) => {
+      return (
+        row
+          .map((guess) => {
+            return status[guess.status];
+          })
+          .join(" ") + "\n"
+      );
+    })
+    .join("");
+
+  navigator.clipboard.writeText(graph);
+  console.log(graph);
 };
 
 const isInWordList = (params) => {
@@ -87,8 +117,8 @@ const updateBoardRowStatuses = (params) => {
 };
 
 const getKeyAnimationStyles = (params) => {
-  let { mode, freeze, key } = params;
-  if (freeze) return {};
+  let { mode, freezeAnimations, key } = params;
+  if (freezeAnimations) return {};
   if (mode != "guessing" || mode != "game-over") {
     return {};
   }
@@ -111,8 +141,8 @@ const getKeyAnimationStyles = (params) => {
 };
 
 const getRowAnimationStyles = (params) => {
-  let { mode, state, freeze, i } = params; //i is the index of the row
-  if (freeze) return {};
+  let { mode, state, freezeAnimations, i } = params; //i is the index of the row
+  if (freezeAnimations) return {};
   if (mode === "word-error" && state.rowNumber === i) {
     return {
       animation: `headShake 1s  0s forwards ease-in-out`,
@@ -122,9 +152,9 @@ const getRowAnimationStyles = (params) => {
 };
 
 const getSquareAnimationStyles = (params) => {
-  let { mode, freeze, state, i, k } = params; //i is the index of the row. k is the index of the column
+  let { mode, freezeAnimations, state, i, k } = params; //i is the index of the row. k is the index of the column
 
-  if (freeze) return {};
+  if (freezeAnimations) return {};
 
   if (mode === "you-won" && state.rowNumber - 1 === i) {
     return {
@@ -143,7 +173,6 @@ const getSquareAnimationStyles = (params) => {
   if (mode === "loading") {
     delay = i / k === "Infinity" ? 0.2 : i / k;
     delay = delay === 0 ? 0.2 : delay;
-
     if (k === 0) {
       delay = (i / 1) * 1.5;
     }
@@ -203,4 +232,5 @@ export {
   isGameOver,
   getKeyPressed,
   doesKeyExist,
+  share,
 };

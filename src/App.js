@@ -17,8 +17,7 @@ import {
   getRowAnimationStyles,
   getSquareAnimationStyles,
   isGameOver,
-  getKeyPressed,
-  doesKeyExist,
+  share,
 } from "./app-logic";
 
 // the guess.status is used as a className, to color the squares and keys
@@ -60,13 +59,17 @@ function App() {
   });
 
   // to get to a square:  board[rowNumber][columnNumber]
-  let [freeze, setFreeze] = useState(null);
+  let [freezeAnimations, setFreezeAnimations] = useState(null);
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
   let [showInstructions, setShowInstrutions] = useState(false);
   let [message, setMessage] = useState(
     "Type a word with the keyboard. Press 'enter' to guess."
   );
+
+  useEffect(() => {
+    console.log("mode", mode);
+  }, [mode]);
 
   useEffect(() => {
     fetchRandomWord()
@@ -98,6 +101,7 @@ function App() {
   };
 
   const guessWord = () => {
+    console.log("mode:", mode);
     // evaluate the letters in the array to see which match the word
     // update the board, so that the guesses are color coded, if they match
     // update the keyboard, for any new keys that were matched and/or tried, etc
@@ -165,7 +169,7 @@ function App() {
   // see which key was clicked and call move
   const handleKeyClick = (e) => {
     if (mode === "you-won" || mode === "game-over") return null; // no more plays
-    if (freeze) setFreeze(false);
+    if (freezeAnimations) setFreezeAnimations(false);
     let { letter } = e.target.dataset;
     if (letter === "enter") {
       setMode("guessing");
@@ -179,15 +183,28 @@ function App() {
     }
   };
 
+  const handleShare = (e) => {
+    e.preventDefault();
+    share({ board });
+  };
+
+  const isModeGameOverOrYouWon = (params) => {
+    return mode === "game-over" || mode === "you-won";
+  };
+
   // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
   return (
     <div className="App">
       <Header>
+        <button className="Header__dev-button" onClick={handleShare}>
+          click here to share / copy graph to clipboard
+        </button>
+
         <span className="Header__message">{message}</span>
         <button
           className="Header__temp-dev-button"
           onClick={(e) => {
-            setFreeze(true);
+            setFreezeAnimations(true);
             setShowInstrutions(!showInstructions);
           }}
         >
@@ -209,14 +226,19 @@ function App() {
             <div
               key={uuid()}
               className="Board__row"
-              style={getRowAnimationStyles({ mode, freeze, state, i })}
+              style={getRowAnimationStyles({
+                mode,
+                freezeAnimations,
+                state,
+                i,
+              })}
             >
               {row.map((guess, k) => {
                 return (
                   <button
                     style={getSquareAnimationStyles({
                       mode,
-                      freeze,
+                      freezeAnimations,
                       state,
                       i,
                       k,

@@ -1,4 +1,9 @@
 export default `
+Strap
+Bless
+Swats
+Sears
+flour
 leak
 shady
 sandy
