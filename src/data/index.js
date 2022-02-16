@@ -37,6 +37,7 @@ const filterWords = (words) => {
         weaks: true,
         inchs: true,
         lives: true,
+        mosts: true,
       };
       return !hash[w];
     });

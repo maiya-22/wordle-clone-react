@@ -53,12 +53,14 @@ function App() {
       });
     })
   );
+
+  // to get to a square:  board[rowNumber][columnNumber]
   let [state, setState] = useState({
     rowNumber: 0,
     columnNumber: 0,
   });
 
-  // to get to a square:  board[rowNumber][columnNumber]
+  // maybe combine into one state?
   let [freezeAnimations, setFreezeAnimations] = useState(null);
   let [mode, setMode] = useState("loading");
   let [word, setWord] = useState("... loading word");
@@ -116,7 +118,6 @@ function App() {
         setMode("you-won");
       }, 1000);
     }
-
     let wordDoesExist;
     try {
       wordDoesExist = await isInWordList({ row: board[state.rowNumber] });
@@ -168,30 +169,39 @@ function App() {
     setBoard(nextBoard);
   };
 
+  // for show/hiding share button:
+  const isModeGameOverOrYouWon = (params) => {
+    return mode === "game-over" || mode === "you-won";
+  };
+
   // see which key was clicked and call move
-  const handleKeyClick = (e) => {
-    if (mode === "you-won" || mode === "game-over") return null; // no more plays
+  const handleKeyClick = async (e) => {
+    if (isModeGameOverOrYouWon()) return null; // no more plays
     if (freezeAnimations) setFreezeAnimations(false);
     let { letter } = e.target.dataset;
-    if (letter === "enter") {
-      setMode("guessing");
-      guessWord();
-    } else if (letter === "backspace") {
-      if (mode != "idle") setMode("idle");
-      deleteLetter();
-    } else {
-      if (mode != "idle") setMode("idle");
-      placeLetterGuess({ letter });
+    switch (letter) {
+      case "enter":
+        setMode("guessing");
+        try {
+          await guessWord();
+        } catch (error) {
+          console.error(error);
+        }
+        break;
+      case "backspace":
+        if (mode != "idle") setMode("idle");
+        deleteLetter();
+        break;
+      default:
+        if (mode != "idle") setMode("idle");
+        placeLetterGuess({ letter });
+        break;
     }
   };
 
   const handleShare = (e) => {
     e.preventDefault();
     share({ board });
-  };
-
-  const isModeGameOverOrYouWon = (params) => {
-    return mode === "game-over" || mode === "you-won";
   };
 
   // Board and Keys are wrapper components. They import styles, etc. But logic done here in main App.
@@ -201,7 +211,6 @@ function App() {
         <button className="Header__dev-button" onClick={handleShare}>
           click here to share / copy graph to clipboard
         </button>
-
         <span className="Header__message">{message}</span>
         <button
           className="Header__temp-dev-button"
