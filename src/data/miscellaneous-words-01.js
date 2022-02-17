@@ -1,4 +1,9 @@
 export default `
+plonk
+yelps
+visor
+groan
+groom
 lived
 chops
 chant
