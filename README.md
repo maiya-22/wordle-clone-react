@@ -1,7 +1,5 @@
 # Wordle Clone
 
-(If you happen upon this repo and want to contribute, please feel free to make a pull request. mid.june.light@gmail.com for any info).
-
 ## Deployed Site:
 
 - https://wordley-wordle-react.netlify.app/
